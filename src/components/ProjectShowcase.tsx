@@ -1,7 +1,8 @@
 ﻿import React, { useState } from "react";
-import { Download, ExternalLink, CheckCircle2 } from "lucide-react";
+import { Download, ExternalLink, CheckCircle2, ShieldCheck } from "lucide-react";
+import { PolicyModal, type ProjectPolicyData } from "./PolicyModal";
 
-interface ProjectItem {
+export interface ProjectItem {
   id: string;
   title: string;
   version: string;
@@ -19,8 +20,8 @@ interface ProjectItem {
 const PROJECTS: ProjectItem[] = [
   {
     id: "climup",
-    title: "CLIMUP — Sistema Operativo de Climatización",
-    version: "v1.0.12 Release",
+    title: "CLIMUP - Sistema Operativo de Climatización",
+    version: "Release Oficial",
     category: "mobile",
     categoryLabel: "App Móvil Android & Cloud",
     badgeColor: "#0284c7",
@@ -33,17 +34,17 @@ const PROJECTS: ProjectItem[] = [
     ],
     specs: [
       { label: "Plataforma", value: "Android (APK Nativo)" },
-      { label: "Tamaño", value: "115.5 MB" },
+      { label: "Almacenamiento", value: "Cloud DB Seguro" },
       { label: "Arquitectura", value: "React Native + Supabase" },
     ],
     downloadUrl: "#descargar-climup",
-    downloadLabel: "Descargar APK v1.0.12",
+    downloadLabel: "DESCARGA APK",
     demoUrl: "https://climup.app",
   },
   {
     id: "travelos",
-    title: "TravelOS VIP — Plataforma SaaS de Viajes",
-    version: "v3.4 Enterprise",
+    title: "TravelOS VIP - Plataforma SaaS de Viajes",
+    version: "Enterprise Cloud",
     category: "saas",
     categoryLabel: "SaaS Multi-Tenant Cloud",
     badgeColor: "#d4af37",
@@ -59,14 +60,16 @@ const PROJECTS: ProjectItem[] = [
       { label: "Stack", value: "Next.js + TypeScript + PostgreSQL" },
       { label: "Disponibilidad", value: "99.98% Uptime" },
     ],
+    downloadUrl: "#descargar-travelos",
+    downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-travelos",
   },
   {
     id: "autoos",
-    title: "AutoOS — Control de Flotas & Rent-a-Car",
-    version: "v2.1 Pro",
+    title: "AutoOS - Control de Flotas & Rent-a-Car",
+    version: "Pro Enterprise",
     category: "mobile",
-    categoryLabel: "Gestión de Vehículos",
+    categoryLabel: "Gestión de Flotas & Alquiler",
     badgeColor: "#10b981",
     description: "Sistema operativo para agencias de alquiler y flotas vehiculares. Control de disponibilidad en tiempo real, contratos de alquiler, checklist de inspección fotográfica y liquidación de garantías.",
     features: [
@@ -81,13 +84,13 @@ const PROJECTS: ProjectItem[] = [
       { label: "Tema", value: "OLED Dark Mode" },
     ],
     downloadUrl: "#descargar-autoos",
-    downloadLabel: "Descargar APK",
+    downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-autoos",
   },
   {
     id: "ai-parser",
-    title: "AI Voucher Parser & Auditoria",
-    version: "v1.5 API",
+    title: "AI Voucher Parser & Auditoría",
+    version: "API Cloud",
     category: "ai",
     categoryLabel: "Inteligencia Artificial & OCR",
     badgeColor: "#a855f7",
@@ -103,7 +106,32 @@ const PROJECTS: ProjectItem[] = [
       { label: "Velocidad", value: "1.2s promedio" },
       { label: "Integración", value: "REST API / Webhook" },
     ],
+    downloadUrl: "#descargar-ai-parser",
+    downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-ai",
+  },
+  {
+    id: "nauticos",
+    title: "NauticOS App - Gestión Náutica & Yates VIP",
+    version: "Marine Pro",
+    category: "mobile",
+    categoryLabel: "App Náutica & Flota VIP",
+    badgeColor: "#06b6d4",
+    description: "Plataforma integral de administración y fletamento para agencias de yates, catamaranes y charters de lujo. Control de disponibilidad de embarcaciones, contratos de fletamento con firma digital, asignación de capitanes y bitácora de navegación marítima.",
+    features: [
+      "Catálogo y estado en tiempo real de yates, lanchas y veleros",
+      "Contratos marítimos digitales con firma del cliente y capitán",
+      "Control de tripulación, combustible, horas de motor e inspecciones",
+      "Liquidación de depósitos de garantía y reservas de charters VIP",
+    ],
+    specs: [
+      { label: "Plataforma", value: "Android (APK) & Web" },
+      { label: "Operación", value: "Charters & Flota Náutica" },
+      { label: "Motor", value: "PostgreSQL + GPS Tracker" },
+    ],
+    downloadUrl: "#descargar-nauticos",
+    downloadLabel: "DESCARGA APK",
+    demoUrl: "#demo-nauticos",
   },
 ];
 
@@ -113,11 +141,22 @@ interface ProjectShowcaseProps {
 
 export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact }) => {
   const [filter, setFilter] = useState<"all" | "mobile" | "saas" | "ai">("all");
+  const [selectedPolicyProject, setSelectedPolicyProject] = useState<ProjectPolicyData | null>(null);
 
   const filtered = filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
   const handleDownload = (p: ProjectItem) => {
-    alert(`Iniciando descarga directa de ${p.title} (${p.version}). El archivo comenzará a descargarse en tu dispositivo.`);
+    alert(`Iniciando descarga directa de ${p.title}. El archivo APK oficial comenzará a descargarse en tu dispositivo.`);
+  };
+
+  const handleOpenPolicies = (proj: ProjectItem) => {
+    setSelectedPolicyProject({
+      id: proj.id,
+      title: proj.title,
+      categoryLabel: proj.categoryLabel,
+      badgeColor: proj.badgeColor,
+      version: proj.version,
+    });
   };
 
   return (
@@ -125,17 +164,17 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
       id="proyectos"
       style={{
         position: "relative",
-        padding: "90px 0 100px",
+        padding: "54px 0 50px",
         zIndex: 3,
         background: "linear-gradient(180deg, transparent 0%, rgba(8, 17, 30, 0.45) 50%, transparent 100%)",
       }}
     >
       <div className="container">
         {/* Header */}
-        <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 45px" }}>
+        <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 32px" }}>
           <span
             style={{
-              fontSize: "12px",
+              fontSize: "11px",
               fontWeight: 800,
               textTransform: "uppercase",
               letterSpacing: "1.5px",
@@ -143,22 +182,25 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
               fontFamily: "'Outfit', sans-serif",
             }}
           >
-            PORTAFOLIO EN VIVO & DESCARGAS
+            PORTAFOLIO EN VIVO &amp; DESCARGAS
           </span>
           <h2
-            className="heading-title"
+            className="heading-title title-hover-glow"
             style={{
-              fontSize: "clamp(2rem, 3.8vw, 3rem)",
+              fontSize: "clamp(1.9rem, 3.5vw, 2.7rem)",
               fontWeight: 900,
               color: "#ffffff",
-              margin: "12px 0 16px",
+              margin: "8px 0 12px",
             }}
           >
             Proyectos reales que puedes{" "}
             <span className="text-gradient">probar y descargar</span>
           </h2>
-          <p style={{ fontSize: "15px", color: "#94a3b8", lineHeight: 1.6 }}>
-            Aquí puedes explorar directamente los sistemas de software y aplicaciones que hemos creado. Descarga los instalables de prueba o solicita una demostración personalizada.
+          <p
+            className="text-hover-neon"
+            style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.55, margin: "0 auto", maxWidth: "680px" }}
+          >
+            Explora directamente los sistemas de software y aplicaciones que desarrollamos. Descarga los instalables o consulta las políticas y demostraciones de cada plataforma.
           </p>
 
           {/* Filter Bar */}
@@ -168,8 +210,8 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
               background: "rgba(9, 21, 39, 0.8)",
               border: "1px solid rgba(56, 189, 248, 0.2)",
               borderRadius: "999px",
-              padding: "5px",
-              marginTop: "24px",
+              padding: "4px",
+              marginTop: "20px",
               gap: "6px",
               flexWrap: "wrap",
               justifyContent: "center",
@@ -188,9 +230,9 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
                   background: filter === tab.id ? "linear-gradient(135deg, #00d2ff 0%, #0070f3 100%)" : "transparent",
                   color: filter === tab.id ? "#ffffff" : "#94a3b8",
                   border: "none",
-                  padding: "8px 18px",
+                  padding: "7px 16px",
                   borderRadius: "999px",
-                  fontSize: "13px",
+                  fontSize: "12.5px",
                   fontWeight: filter === tab.id ? 700 : 500,
                   cursor: "pointer",
                   transition: "all 0.25s ease",
@@ -206,8 +248,8 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
-            gap: "28px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+            gap: "22px",
           }}
         >
           {filtered.map((proj) => (
@@ -215,25 +257,25 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
               key={proj.id}
               className="glass-panel"
               style={{
-                padding: "32px",
+                padding: "26px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                borderRadius: "20px",
-                border: "1px solid rgba(56, 189, 248, 0.15)",
+                borderRadius: "18px",
+                border: "1px solid rgba(56, 189, 248, 0.16)",
               }}
             >
               <div>
                 {/* Top Badge & Version */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
                   <span
                     style={{
                       background: `rgba(0, 210, 255, 0.12)`,
                       color: proj.badgeColor,
                       border: `1px solid ${proj.badgeColor}40`,
-                      fontSize: "11px",
+                      fontSize: "10.5px",
                       fontWeight: 700,
-                      padding: "4px 10px",
+                      padding: "4px 9px",
                       borderRadius: "6px",
                       textTransform: "uppercase",
                     }}
@@ -246,26 +288,31 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
                 </div>
 
                 <h3
+                  className="title-hover-glow"
                   style={{
-                    fontSize: "21px",
+                    fontSize: "19px",
                     fontWeight: 800,
                     color: "#ffffff",
-                    marginBottom: "10px",
+                    marginBottom: "8px",
                     fontFamily: "'Outfit', sans-serif",
+                    lineHeight: 1.3,
                   }}
                 >
                   {proj.title}
                 </h3>
 
-                <p style={{ fontSize: "13.5px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "20px" }}>
+                <p
+                  className="text-hover-neon"
+                  style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.55, marginBottom: "16px" }}
+                >
                   {proj.description}
                 </p>
 
                 {/* Features List */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "22px" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "18px" }}>
                   {proj.features.map((feat, i) => (
-                    <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "12.5px", color: "#e2e8f0" }}>
-                      <CheckCircle2 size={15} color="#00d2ff" style={{ flexShrink: 0, marginTop: "2px" }} />
+                    <div key={i} className="feature-hover-row" style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "12px", color: "#e2e8f0" }}>
+                      <CheckCircle2 size={14} color="#00d2ff" style={{ flexShrink: 0, marginTop: "2px", transition: "transform 0.2s ease" }} />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -280,8 +327,8 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
                     background: "rgba(5, 11, 20, 0.8)",
                     border: "1px solid rgba(255, 255, 255, 0.06)",
                     borderRadius: "10px",
-                    padding: "10px",
-                    marginBottom: "24px",
+                    padding: "8px",
+                    marginBottom: "18px",
                     textAlign: "center",
                   }}
                 >
@@ -294,60 +341,97 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "18px" }}>
-                {proj.downloadUrl && (
+              {/* Action Buttons: DESCARGA APK + Políticas + Solicitar Demo */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "14px" }}>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  {proj.downloadUrl && (
+                    <button
+                      onClick={() => handleDownload(proj)}
+                      style={{
+                        flex: 1.3,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "6px",
+                        background: "linear-gradient(135deg, #00d2ff 0%, #0070f3 100%)",
+                        color: "#ffffff",
+                        fontWeight: 700,
+                        fontSize: "12.5px",
+                        padding: "10px 14px",
+                        borderRadius: "10px",
+                        border: "none",
+                        cursor: "pointer",
+                        boxShadow: "0 4px 15px rgba(0, 210, 255, 0.3)",
+                        transition: "all 0.25s ease",
+                      }}
+                    >
+                      <Download size={14} />
+                      {/* Strictly DESCARGA APK without version number */}
+                      <span>DESCARGA APK</span>
+                    </button>
+                  )}
+
+                  {/* Políticas Button */}
                   <button
-                    onClick={() => handleDownload(proj)}
+                    onClick={() => handleOpenPolicies(proj)}
+                    title="Ver Políticas y Términos Oficiales"
                     style={{
                       flex: 1,
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      gap: "8px",
-                      background: "linear-gradient(135deg, #00d2ff 0%, #0070f3 100%)",
-                      color: "#ffffff",
-                      fontWeight: 700,
-                      fontSize: "13px",
-                      padding: "11px 16px",
+                      gap: "6px",
+                      background: "rgba(0, 210, 255, 0.09)",
+                      border: "1px solid rgba(0, 210, 255, 0.3)",
+                      color: "#38bdf8",
+                      fontWeight: 600,
+                      fontSize: "12px",
+                      padding: "10px 12px",
                       borderRadius: "10px",
-                      border: "none",
                       cursor: "pointer",
-                      boxShadow: "0 4px 15px rgba(0, 210, 255, 0.3)",
+                      transition: "all 0.25s ease",
                     }}
                   >
-                    <Download size={15} />
-                    <span>{proj.downloadLabel || "Descargar APK"}</span>
+                    <ShieldCheck size={14} />
+                    <span>Políticas</span>
                   </button>
-                )}
+                </div>
 
+                {/* Solicitar Demo */}
                 <button
                   onClick={() => onOpenContact(proj.title)}
                   style={{
-                    flex: 1,
+                    width: "100%",
                     display: "inline-flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "8px",
-                    background: "rgba(255, 255, 255, 0.05)",
-                    border: "1px solid rgba(255, 255, 255, 0.15)",
-                    color: "#f8fafc",
+                    gap: "6px",
+                    background: "rgba(255, 255, 255, 0.04)",
+                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    color: "#e2e8f0",
                     fontWeight: 600,
-                    fontSize: "13px",
-                    padding: "11px 16px",
-                    borderRadius: "10px",
+                    fontSize: "12px",
+                    padding: "8px 14px",
+                    borderRadius: "8px",
                     cursor: "pointer",
+                    transition: "all 0.2s ease",
                   }}
                 >
-                  <span>Solicitar Demo</span>
-                  <ExternalLink size={14} color="#38bdf8" />
+                  <span>Solicitar Demo o Integración</span>
+                  <ExternalLink size={13} color="#38bdf8" />
                 </button>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Enterprise Policy Modal */}
+      <PolicyModal
+        isOpen={Boolean(selectedPolicyProject)}
+        project={selectedPolicyProject}
+        onClose={() => setSelectedPolicyProject(null)}
+      />
     </section>
   );
 };
-

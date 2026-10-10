@@ -1,11 +1,15 @@
 ﻿import React, { useState } from "react";
-import { X, Send, MessageCircle, CheckCircle2 } from "lucide-react";
+import { X, Send, MessageCircle, CheckCircle2, Phone, Mail } from "lucide-react";
 
 interface ContactModalProps {
   visible: boolean;
   initialService?: string;
   onClose: () => void;
 }
+
+const OFFICIAL_PHONE = "+1.849.658.4957";
+const OFFICIAL_WHATSAPP_LINK = "https://wa.me/18496584957";
+const OFFICIAL_EMAIL = "hdiasolucionesdigitales@gmail.com";
 
 export const ContactModal: React.FC<ContactModalProps> = ({
   visible,
@@ -30,7 +34,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const text = encodeURIComponent(
       `¡Hola HD IA SOFTWARE!\n\nMi nombre es: ${name || "Cliente"}\nTeléfono: ${phone || "No especificado"}\nInterés: ${serviceType}\n\nDetalle: ${message || "Deseo cotizar un proyecto digital."}`
     );
-    window.open(`https://wa.me/18296708000?text=${text}`, "_blank");
+    window.open(`${OFFICIAL_WHATSAPP_LINK}?text=${text}`, "_blank");
     onClose();
   };
 
@@ -40,7 +44,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
         position: "fixed",
         inset: 0,
         zIndex: 10000,
-        background: "rgba(5, 11, 20, 0.85)",
+        background: "rgba(3, 8, 18, 0.88)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         display: "flex",
@@ -53,12 +57,12 @@ export const ContactModal: React.FC<ContactModalProps> = ({
       <div
         style={{
           width: "100%",
-          maxWidth: "520px",
-          background: "rgba(9, 21, 39, 0.95)",
-          border: "1px solid rgba(56, 189, 248, 0.3)",
-          borderRadius: "24px",
-          padding: "32px",
-          boxShadow: "0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 210, 255, 0.2)",
+          maxWidth: "500px",
+          background: "linear-gradient(160deg, rgba(8, 20, 38, 0.98) 0%, rgba(4, 10, 20, 0.99) 100%)",
+          border: "1.5px solid rgba(56, 189, 248, 0.3)",
+          borderRadius: "22px",
+          padding: "26px",
+          boxShadow: "0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(0, 210, 255, 0.2)",
           position: "relative",
         }}
         onClick={(e) => e.stopPropagation()}
@@ -68,18 +72,19 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           onClick={onClose}
           style={{
             position: "absolute",
-            top: "20px",
-            right: "20px",
-            background: "rgba(255, 255, 255, 0.08)",
-            border: "none",
+            top: "16px",
+            right: "16px",
+            background: "rgba(255, 255, 255, 0.06)",
+            border: "1px solid rgba(255, 255, 255, 0.12)",
             color: "#94a3b8",
-            width: "36px",
-            height: "36px",
+            width: "34px",
+            height: "34px",
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
+            transition: "all 0.2s ease",
           }}
         >
           <X size={18} />
@@ -89,119 +94,136 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           <div style={{ textAlign: "center", padding: "30px 10px" }}>
             <div
               style={{
-                width: "64px",
-                height: "64px",
+                width: "60px",
+                height: "60px",
                 borderRadius: "50%",
                 background: "rgba(16, 185, 129, 0.15)",
+                border: "2px solid #10b981",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                margin: "0 auto 20px",
+                margin: "0 auto 16px",
+                color: "#10b981",
               }}
             >
-              <CheckCircle2 size={36} color="#10b981" />
+              <CheckCircle2 size={32} />
             </div>
-            <h3 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", marginBottom: "8px" }}>
-              ¡Solicitud Recibida con Éxito!
+            <h3 style={{ fontSize: "21px", fontWeight: 800, color: "#fff", marginBottom: "8px" }}>
+              ¡Solicitud Recibida!
             </h3>
-            <p style={{ fontSize: "14px", color: "#94a3b8", marginBottom: "24px" }}>
-              Gracias {name}. Un especialista de HD IA SOFTWARE te contactará en menos de 2 horas.
+            <p style={{ fontSize: "13.5px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "20px" }}>
+              Nos pondremos en contacto contigo a la brevedad. Para respuesta inmediata, comunícate directo por WhatsApp:
             </p>
-            <button onClick={onClose} className="btn-primary" style={{ width: "100%" }}>
-              Entendido
+            <button
+              onClick={handleSendWhatsApp}
+              className="btn-primary"
+              style={{ width: "100%", padding: "12px 20px", fontSize: "14px" }}
+            >
+              <MessageCircle size={18} />
+              <span>Abrir WhatsApp ({OFFICIAL_PHONE})</span>
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: "22px" }}>
+          <>
+            <div style={{ marginBottom: "20px" }}>
               <span
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10.5px",
                   fontWeight: 800,
-                  color: "#00d2ff",
-                  letterSpacing: "1px",
+                  letterSpacing: "1.2px",
                   textTransform: "uppercase",
+                  color: "#00d2ff",
+                  fontFamily: "'Outfit', sans-serif",
                 }}
               >
-                HABLEMOS DE TU PROYECTO
+                CONTACTO DIRECTO &amp; COTIZACIÓN
               </span>
               <h3
                 style={{
                   fontSize: "22px",
-                  fontWeight: 800,
-                  color: "#fff",
-                  marginTop: "4px",
+                  fontWeight: 900,
+                  color: "#ffffff",
+                  margin: "4px 0 6px",
                   fontFamily: "'Outfit', sans-serif",
                 }}
               >
-                Cuéntanos tu idea
+                Iniciemos tu proyecto
               </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "12px", color: "#94a3b8" }}>
+                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <Phone size={13} color="#00d2ff" /> WhatsApp Oficial: <strong style={{ color: "#38bdf8" }}>{OFFICIAL_PHONE}</strong>
+                </span>
+                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <Mail size={13} color="#d4af37" /> Correo: <strong style={{ color: "#e2e8f0" }}>{OFFICIAL_EMAIL}</strong>
+                </span>
+              </div>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               <div>
-                <label style={{ fontSize: "12px", color: "#cbd5e1", fontWeight: 600, display: "block", marginBottom: "4px" }}>
-                  Tu Nombre o Empresa *
+                <label style={{ fontSize: "11.5px", fontWeight: 700, color: "#cbd5e1", display: "block", marginBottom: "4px" }}>
+                  Nombre o Empresa *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Ej: Carlos Gómez"
+                  placeholder="Tu nombre o empresa"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   style={{
                     width: "100%",
-                    background: "rgba(5, 11, 20, 0.8)",
-                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    background: "rgba(5, 12, 22, 0.85)",
+                    border: "1px solid rgba(56, 189, 248, 0.2)",
                     borderRadius: "10px",
-                    padding: "10px 14px",
-                    color: "#fff",
-                    fontSize: "14px",
+                    padding: "9px 12px",
+                    color: "#ffffff",
+                    fontSize: "13px",
                     outline: "none",
                   }}
                 />
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
                 <div>
-                  <label style={{ fontSize: "12px", color: "#cbd5e1", fontWeight: 600, display: "block", marginBottom: "4px" }}>
+                  <label style={{ fontSize: "11.5px", fontWeight: 700, color: "#cbd5e1", display: "block", marginBottom: "4px" }}>
                     WhatsApp / Teléfono *
                   </label>
                   <input
                     type="tel"
                     required
-                    placeholder="+1 (829) 000-0000"
+                    placeholder="+1 (849) 000-0000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     style={{
                       width: "100%",
-                      background: "rgba(5, 11, 20, 0.8)",
-                      border: "1px solid rgba(255, 255, 255, 0.12)",
+                      background: "rgba(5, 12, 22, 0.85)",
+                      border: "1px solid rgba(56, 189, 248, 0.2)",
                       borderRadius: "10px",
-                      padding: "10px 14px",
-                      color: "#fff",
-                      fontSize: "14px",
+                      padding: "9px 12px",
+                      color: "#ffffff",
+                      fontSize: "13px",
                       outline: "none",
                     }}
                   />
                 </div>
+
                 <div>
-                  <label style={{ fontSize: "12px", color: "#cbd5e1", fontWeight: 600, display: "block", marginBottom: "4px" }}>
+                  <label style={{ fontSize: "11.5px", fontWeight: 700, color: "#cbd5e1", display: "block", marginBottom: "4px" }}>
                     Correo Electrónico
                   </label>
                   <input
                     type="email"
-                    placeholder="contacto@empresa.com"
+                    placeholder="correo@ejemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     style={{
                       width: "100%",
-                      background: "rgba(5, 11, 20, 0.8)",
-                      border: "1px solid rgba(255, 255, 255, 0.12)",
+                      background: "rgba(5, 12, 22, 0.85)",
+                      border: "1px solid rgba(56, 189, 248, 0.2)",
                       borderRadius: "10px",
-                      padding: "10px 14px",
-                      color: "#fff",
-                      fontSize: "14px",
+                      padding: "9px 12px",
+                      color: "#ffffff",
+                      fontSize: "13px",
                       outline: "none",
                     }}
                   />
@@ -209,87 +231,107 @@ export const ContactModal: React.FC<ContactModalProps> = ({
               </div>
 
               <div>
-                <label style={{ fontSize: "12px", color: "#cbd5e1", fontWeight: 600, display: "block", marginBottom: "4px" }}>
-                  ¿Qué solución necesitas?
+                <label style={{ fontSize: "11.5px", fontWeight: 700, color: "#cbd5e1", display: "block", marginBottom: "4px" }}>
+                  Solución o Aplicación de Interés
                 </label>
                 <select
                   value={serviceType}
                   onChange={(e) => setServiceType(e.target.value)}
                   style={{
                     width: "100%",
-                    background: "rgba(5, 11, 20, 0.9)",
-                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    background: "rgba(5, 12, 22, 0.85)",
+                    border: "1px solid rgba(56, 189, 248, 0.2)",
                     borderRadius: "10px",
-                    padding: "10px 14px",
-                    color: "#fff",
-                    fontSize: "14px",
+                    padding: "9px 12px",
+                    color: "#ffffff",
+                    fontSize: "13px",
                     outline: "none",
                   }}
                 >
                   <option value="Landing Page de Alto Impacto">Landing Page de Alto Impacto</option>
-                  <option value="Sitio Web Empresarial">Sitio Web Empresarial</option>
-                  <option value="App Móvil (Android / iOS)">App Móvil (Android / iOS)</option>
-                  <option value="Dashboard & Software a Medida">Dashboard & Software a Medida</option>
-                  <option value="Integración con IA y Automatización">Integración con IA y Automatización</option>
+                  <option value="Sitio Web Corporativo">Sitio Web Corporativo</option>
+                  <option value="App Móvil / Sistema Operativo">App Móvil / Sistema Operativo</option>
+                  <option value="NauticOS App - Gestión Náutica">NauticOS App - Gestión Náutica &amp; Yates VIP</option>
+                  <option value="CLIMUP - Climatización & Refrigeración">CLIMUP - Climatización &amp; Refrigeración</option>
+                  <option value="TravelOS VIP - Plataforma de Viajes">TravelOS VIP - Plataforma de Viajes</option>
+                  <option value="AutoOS - Rent a Car & Flotas">AutoOS - Rent a Car &amp; Flotas</option>
+                  <option value="AI Voucher Parser & OCR">AI Voucher Parser &amp; OCR</option>
+                  <option value="Otro Desarrollo a Medida">Otro Desarrollo a Medida</option>
                 </select>
               </div>
 
               <div>
-                <label style={{ fontSize: "12px", color: "#cbd5e1", fontWeight: 600, display: "block", marginBottom: "4px" }}>
-                  Detalles de tu idea
+                <label style={{ fontSize: "11.5px", fontWeight: 700, color: "#cbd5e1", display: "block", marginBottom: "4px" }}>
+                  Detalles o Requerimientos
                 </label>
                 <textarea
-                  rows={3}
-                  placeholder="Cuéntanos objetivos, funciones clave o fecha estimada..."
+                  rows={2}
+                  placeholder="Cuéntanos brevemente sobre tu proyecto o duda..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   style={{
                     width: "100%",
-                    background: "rgba(5, 11, 20, 0.8)",
-                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    background: "rgba(5, 12, 22, 0.85)",
+                    border: "1px solid rgba(56, 189, 248, 0.2)",
                     borderRadius: "10px",
-                    padding: "10px 14px",
-                    color: "#fff",
-                    fontSize: "14px",
+                    padding: "9px 12px",
+                    color: "#ffffff",
+                    fontSize: "13px",
                     outline: "none",
                     resize: "none",
                   }}
                 />
               </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px" }}>
+              <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
                 <button
                   type="button"
                   onClick={handleSendWhatsApp}
                   style={{
-                    width: "100%",
-                    background: "#25d366",
-                    color: "#ffffff",
-                    border: "none",
-                    padding: "12px",
-                    borderRadius: "12px",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    display: "flex",
+                    flex: 1.2,
+                    display: "inline-flex",
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "8px",
+                    background: "linear-gradient(135deg, #25d366 0%, #128c7e 100%)",
+                    color: "#ffffff",
+                    fontWeight: 700,
+                    fontSize: "13px",
+                    padding: "11px",
+                    borderRadius: "10px",
+                    border: "none",
                     cursor: "pointer",
                     boxShadow: "0 4px 15px rgba(37, 211, 102, 0.35)",
                   }}
                 >
-                  <MessageCircle size={18} />
-                  <span>Contactar de inmediato por WhatsApp</span>
+                  <MessageCircle size={16} />
+                  <span>Enviar por WhatsApp</span>
                 </button>
 
-                <button type="submit" className="btn-primary" style={{ width: "100%", padding: "12px" }}>
-                  <Send size={16} />
-                  <span>Enviar mensaje por la web</span>
+                <button
+                  type="submit"
+                  style={{
+                    flex: 1,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "6px",
+                    background: "rgba(255, 255, 255, 0.06)",
+                    border: "1px solid rgba(255, 255, 255, 0.15)",
+                    color: "#f8fafc",
+                    fontWeight: 600,
+                    fontSize: "13px",
+                    padding: "11px",
+                    borderRadius: "10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Send size={14} />
+                  <span>Enviar Formulario</span>
                 </button>
               </div>
-            </div>
-          </form>
+            </form>
+          </>
         )}
       </div>
     </div>

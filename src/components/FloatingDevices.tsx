@@ -1,477 +1,509 @@
-﻿import React, { useState, useEffect, useRef } from "react";
-import { LaptopScreenContent, PhoneScreenContent, SYSTEMS_LIST } from "./DeviceScreens";
-import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+﻿import React, { useRef, useState, useCallback } from "react";
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIDEO PLAYLIST - consecutive playback, infinite loop
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const PLAYLIST = [
+  "https://res.cloudinary.com/dyk0dfbjo/video/upload/q_auto,f_auto/v1791599170/video_2026-10-09_22-25-42_r9xdrc.mp4",
+  "https://res.cloudinary.com/dyk0dfbjo/video/upload/q_auto,f_auto/v1791599170/video_2026-10-09_22-25-26_nmrldv.mp4",
+];
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   INLINE VIDEO PLAYER
+   • startIndex: so laptop starts at 0, phone starts at 1 (opposite phase)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+interface VideoPlayerProps {
+  borderRadius: string;
+  startIndex?: number;
+  showBadge?: boolean;
+}
+
+const VideoPlayer: React.FC<VideoPlayerProps> = ({
+  borderRadius,
+  startIndex = 0,
+  showBadge = false,
+}) => {
+  const [idx, setIdx] = useState(startIndex % PLAYLIST.length);
+  const handleEnded = useCallback(
+    () => setIdx((p) => (p + 1) % PLAYLIST.length),
+    []
+  );
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        /* Dark navy background so loading frame is never solid black */
+        background: "linear-gradient(160deg, #0a1829 0%, #040c18 100%)",
+        borderRadius,
+        overflow: "hidden",
+      }}
+    >
+      {/* Loading shimmer (visible only while video fetches) */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(90deg, transparent 30%, rgba(0,210,255,0.06) 50%, transparent 70%)",
+          backgroundSize: "200% 100%",
+          animation: "shimmerLoad 2.5s ease-in-out infinite",
+          zIndex: 1,
+          borderRadius,
+        }}
+      />
+
+      <video
+        key={idx}
+        src={PLAYLIST[idx]}
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        onEnded={handleEnded}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          borderRadius,
+          zIndex: 2,
+        }}
+      />
+
+      {/* Glass shine overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 50%, rgba(0,210,255,0.04) 100%)",
+          pointerEvents: "none",
+          borderRadius,
+          zIndex: 3,
+        }}
+      />
+
+      {/* Progress dots */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: "8px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: "4px",
+          zIndex: 10,
+        }}
+      >
+        {PLAYLIST.map((_, i) => (
+          <div
+            key={i}
+            style={{
+              width: i === idx ? "16px" : "5px",
+              height: "5px",
+              borderRadius: "3px",
+              background:
+                i === idx ? "#00d2ff" : "rgba(255,255,255,0.25)",
+              transition: "width 0.3s ease",
+              boxShadow: i === idx ? "0 0 6px #00d2ff" : "none",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* DEMO badge (laptop only) */}
+      {showBadge && (
+        <div
+          style={{
+            position: "absolute",
+            top: "8px",
+            right: "8px",
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+            background: "rgba(0,0,0,0.65)",
+            backdropFilter: "blur(8px)",
+            border: "1px solid rgba(0,210,255,0.35)",
+            borderRadius: "20px",
+            padding: "3px 9px",
+            zIndex: 20,
+          }}
+        >
+          <span
+            style={{
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              background: "#00d2ff",
+              boxShadow: "0 0 6px #00d2ff",
+              display: "inline-block",
+              animation: "livePulse 1.4s ease-in-out infinite",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "8px",
+              fontWeight: 700,
+              color: "#00d2ff",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              letterSpacing: "0.5px",
+            }}
+          >
+            DEMO EN VIVO
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MAIN COMPONENT
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 export const FloatingDevices: React.FC = () => {
-  const [activeScreenIndex, setActiveScreenIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Auto-cycle through screens every 4.5 seconds
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setActiveScreenIndex((prev) => (prev + 1) % SYSTEMS_LIST.length);
-    }, 4500);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  // Subtle interactive parallax based on mouse position
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x, y });
-  };
-
-  const handleMouseLeave = () => {
-    setMousePos({ x: 0, y: 0 });
-  };
-
-  const prevScreen = () => {
-    setActiveScreenIndex((prev) => (prev - 1 + SYSTEMS_LIST.length) % SYSTEMS_LIST.length);
-  };
-
-  const nextScreen = () => {
-    setActiveScreenIndex((prev) => (prev + 1) % SYSTEMS_LIST.length);
+    setMousePos({
+      x: (e.clientX - rect.left) / rect.width - 0.5,
+      y: (e.clientY - rect.top) / rect.height - 0.5,
+    });
   };
 
   return (
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
       style={{
         position: "relative",
         width: "100%",
-        maxWidth: "960px",
-        margin: "0 auto",
-        padding: "40px 10px 20px",
+        height: "480px",
         perspective: "1200px",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      {/* Ambient Blue Neon Glow Behind Devices */}
+      {/* Ambient glow behind entire mockup area */}
       <div
         style={{
           position: "absolute",
-          top: "20%",
-          left: "25%",
-          width: "55%",
-          height: "55%",
+          top: "10%",
+          left: "15%",
+          width: "65%",
+          height: "65%",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0, 210, 255, 0.28) 0%, rgba(0, 112, 243, 0.18) 45%, transparent 70%)",
-          filter: "blur(65px)",
+          background:
+            "radial-gradient(circle, rgba(0,210,255,0.2) 0%, rgba(0,112,243,0.1) 50%, transparent 70%)",
+          filter: "blur(55px)",
           pointerEvents: "none",
-          zIndex: 1,
-          animation: "glowPulse 6s ease-in-out infinite",
         }}
       />
 
-      {/* Main 3D Floating Stage */}
+      {/* ━━━━━━━━━━━━━━ LAPTOP ━━━━━━━━━━━━━━ */}
       <div
+        className="float-laptop"
         style={{
-          position: "relative",
-          width: "100%",
-          height: "450px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          position: "absolute",
+          left: "1%",
+          width: "64%",
+          height: "390px",
+          transformStyle: "preserve-3d",
+          transform: `
+            translate3d(${mousePos.x * 18}px, ${mousePos.y * 12}px, 0)
+            rotateX(${10 + mousePos.y * -7}deg)
+            rotateY(${-10 + mousePos.x * 8}deg)
+          `,
+          transition: "transform 0.6s cubic-bezier(0.23,1,0.32,1)",
           zIndex: 2,
         }}
-        className="floating-stage-wrapper"
       >
-        {/* ==============================================================
-            1. HYPERREALISTIC 3D FLOATING LAPTOP
-            ============================================================== */}
+        {/* Lid */}
+        <div
+          style={{
+            width: "100%",
+            height: "76%",
+            background: "linear-gradient(160deg, #1a2a3f 0%, #0d1b2a 100%)",
+            border: "1.5px solid rgba(0,210,255,0.3)",
+            borderRadius: "14px 14px 4px 4px",
+            boxShadow:
+              "0 30px 80px -15px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.08)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Bezel + video */}
+          <div
+            style={{
+              position: "absolute",
+              inset: "8px",
+              borderRadius: "8px",
+              overflow: "hidden",
+            }}
+          >
+            <VideoPlayer borderRadius="6px" startIndex={0} showBadge={true} />
+          </div>
+          {/* Camera dot */}
+          <div
+            style={{
+              position: "absolute",
+              top: "5px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              background: "#1e2d3d",
+            }}
+          />
+          {/* Top shine */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.055) 0%, transparent 40%)",
+              pointerEvents: "none",
+            }}
+          />
+        </div>
+
+        {/* Base hinge */}
+        <div
+          style={{
+            width: "100%",
+            height: "5%",
+            background: "linear-gradient(180deg, #1a2a3f 0%, #101e2c 100%)",
+            borderRadius: "0 0 6px 6px",
+            border: "1.5px solid rgba(0,210,255,0.15)",
+            borderTop: "none",
+            boxShadow: "0 6px 18px rgba(0,0,0,0.5)",
+          }}
+        />
+        {/* Keyboard slab */}
+        <div
+          style={{
+            width: "108%",
+            marginLeft: "-4%",
+            height: "4%",
+            background: "linear-gradient(180deg, #0f1c2b 0%, #0a1320 100%)",
+            borderRadius: "0 0 10px 10px",
+            boxShadow: "0 8px 25px rgba(0,0,0,0.6)",
+          }}
+        />
+        {/* Cast shadow */}
         <div
           style={{
             position: "absolute",
+            bottom: "-28px",
             left: "5%",
-            width: "68%",
-            maxWidth: "620px",
-            height: "360px",
-            transform: `
-              translate3d(${mousePos.x * 20}px, ${mousePos.y * 15}px, 0px)
-              rotateX(${11 + mousePos.y * -8}deg)
-              rotateY(${-12 + mousePos.x * 12}deg)
-              rotateZ(2deg)
-            `,
-            transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-            transformStyle: "preserve-3d",
-            animation: "floatLaptopMotion 8s ease-in-out infinite",
-            zIndex: 3,
+            width: "90%",
+            height: "18px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(ellipse, rgba(0,0,0,0.75) 0%, rgba(0,210,255,0.1) 60%, transparent 80%)",
+            filter: "blur(10px)",
+            pointerEvents: "none",
           }}
-          className="laptop-container"
-        >
-          {/* Laptop Screen Bezel */}
-          <div
-            style={{
-              width: "100%",
-              height: "330px",
-              background: "#090d16",
-              borderRadius: "14px 14px 4px 4px",
-              border: "2px solid #1e293b",
-              boxShadow: `
-                0 30px 60px -15px rgba(0, 0, 0, 0.8),
-                0 0 40px rgba(0, 112, 243, 0.25),
-                inset 0 1px 1px rgba(255, 255, 255, 0.2)
-              `,
-              padding: "10px 10px 14px",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            {/* Top Webcam Notch */}
-            <div
-              style={{
-                position: "absolute",
-                top: "4px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "48px",
-                height: "6px",
-                background: "#050b14",
-                borderRadius: "0 0 6px 6px",
-                zIndex: 10,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#00d2ff", opacity: 0.8 }} />
-            </div>
-
-            {/* Display Glass Reflections */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 40%, rgba(0,210,255,0.03) 100%)",
-                pointerEvents: "none",
-                zIndex: 5,
-              }}
-            />
-
-            {/* Live Interactive System Screen */}
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "8px",
-                overflow: "hidden",
-                boxShadow: "inset 0 0 10px rgba(0,0,0,0.8)",
-              }}
-            >
-              <LaptopScreenContent activeIndex={activeScreenIndex} />
-            </div>
-          </div>
-
-          {/* Laptop Base / Keyboard Lip */}
-          <div
-            style={{
-              width: "112%",
-              height: "14px",
-              background: "linear-gradient(180deg, #1e293b 0%, #0f172a 100%)",
-              borderRadius: "2px 2px 14px 14px",
-              margin: "-2px -6%",
-              boxShadow: "0 15px 30px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255,255,255,0.3)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderTop: "1px solid rgba(255,255,255,0.15)",
-            }}
-          >
-            <div style={{ width: "60px", height: "3px", background: "rgba(0, 210, 255, 0.4)", borderRadius: "2px" }} />
-          </div>
-
-          {/* Realistic Shadow Cast on Floor */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: "-45px",
-              left: "5%",
-              width: "90%",
-              height: "25px",
-              borderRadius: "50%",
-              background: "radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75) 0%, rgba(0, 112, 243, 0.15) 50%, transparent 80%)",
-              filter: "blur(14px)",
-              pointerEvents: "none",
-              zIndex: -1,
-            }}
-          />
-        </div>
-
-        {/* ==============================================================
-            2. HYPERREALISTIC 3D FLOATING SMARTPHONE
-            ============================================================== */}
-        <div
-          style={{
-            position: "absolute",
-            right: "8%",
-            width: "28%",
-            maxWidth: "235px",
-            height: "380px",
-            transform: `
-              translate3d(${mousePos.x * -18}px, ${mousePos.y * -14}px, 40px)
-              rotateX(${6 + mousePos.y * -6}deg)
-              rotateY(${14 + mousePos.x * -10}deg)
-              rotateZ(-3deg)
-            `,
-            transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-            transformStyle: "preserve-3d",
-            animation: "floatPhoneMotion 7s ease-in-out infinite",
-            zIndex: 4,
-          }}
-          className="phone-container"
-        >
-          {/* Phone Body with Titanium Edge Frame */}
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              background: "#080c14",
-              borderRadius: "32px",
-              border: "3px solid #334155",
-              boxShadow: `
-                0 25px 50px -10px rgba(0, 0, 0, 0.85),
-                0 0 35px rgba(0, 210, 255, 0.25),
-                inset 0 1px 2px rgba(255, 255, 255, 0.35)
-              `,
-              padding: "10px",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            {/* Dynamic Island Pill */}
-            <div
-              style={{
-                position: "absolute",
-                top: "14px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "48px",
-                height: "12px",
-                background: "#000000",
-                borderRadius: "12px",
-                zIndex: 10,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.6)",
-              }}
-            />
-
-            {/* Screen Glass Reflection */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 45%, rgba(0,210,255,0.04) 100%)",
-                pointerEvents: "none",
-                zIndex: 5,
-              }}
-            />
-
-            {/* Live Synchronized Mobile Screen */}
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "24px",
-                overflow: "hidden",
-              }}
-            >
-              <PhoneScreenContent activeIndex={activeScreenIndex} />
-            </div>
-          </div>
-
-          {/* Phone Shadow Cast */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: "-35px",
-              left: "10%",
-              width: "80%",
-              height: "20px",
-              borderRadius: "50%",
-              background: "radial-gradient(ellipse at center, rgba(0, 0, 0, 0.8) 0%, rgba(0, 210, 255, 0.15) 50%, transparent 80%)",
-              filter: "blur(12px)",
-              pointerEvents: "none",
-              zIndex: -1,
-            }}
-          />
-        </div>
+        />
       </div>
 
-      {/* ==============================================================
-          3. INTERACTIVE SYSTEM SELECTOR BAR (CONTROL TACTIL Y MANUAL)
-          ============================================================== */}
+      {/* ━━━━━━━━━━━━━━ PHONE ━━━━━━━━━━━━━━ */}
+
+      {/* Neon glow halo BEHIND the phone so it's always visible */}
       <div
         style={{
-          marginTop: "35px",
-          width: "100%",
-          maxWidth: "760px",
-          background: "rgba(9, 21, 39, 0.85)",
-          backdropFilter: "blur(20px)",
-          border: "1px solid rgba(56, 189, 248, 0.2)",
-          borderRadius: "18px",
-          padding: "12px 18px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-          boxShadow: "0 15px 35px -10px rgba(0, 0, 0, 0.6)",
-          zIndex: 10,
+          position: "absolute",
+          right: "1%",
+          width: "26%",
+          maxWidth: "175px",
+          height: "360px",
+          borderRadius: "32px",
+          background:
+            "radial-gradient(ellipse at center, rgba(0,210,255,0.25) 0%, rgba(0,112,243,0.12) 55%, transparent 80%)",
+          filter: "blur(22px)",
+          zIndex: 3,
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        className="float-phone"
+        style={{
+          position: "absolute",
+          right: "2%",
+          width: "24%",
+          maxWidth: "170px",
+          height: "340px",
+          transformStyle: "preserve-3d",
+          transform: `
+            translate3d(${-mousePos.x * 12}px, ${-mousePos.y * 18}px, 30px)
+            rotateX(${-8 + mousePos.y * 6}deg)
+            rotateY(${12 + mousePos.x * -8}deg)
+          `,
+          transition: "transform 0.7s cubic-bezier(0.23,1,0.32,1)",
+          zIndex: 5,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#00d2ff", boxShadow: "0 0 10px #00d2ff" }} />
-            <span style={{ fontSize: "12px", fontWeight: 700, color: "#f8fafc" }}>
-              Mostrando Sistema: <span style={{ color: "#38bdf8" }}>{SYSTEMS_LIST[activeScreenIndex].name}</span>
-            </span>
-          </div>
-
-          {/* Controls: Prev / Play-Pause / Next */}
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <button
-              onClick={prevScreen}
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "#94a3b8",
-                width: "28px",
-                height: "28px",
-                borderRadius: "6px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-              title="Sistema anterior"
-            >
-              <ChevronLeft size={16} />
-            </button>
-
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              style={{
-                background: isPlaying ? "rgba(0, 210, 255, 0.15)" : "rgba(255,255,255,0.06)",
-                border: `1px solid ${isPlaying ? "#00d2ff" : "rgba(255,255,255,0.1)"}`,
-                color: isPlaying ? "#00d2ff" : "#94a3b8",
-                width: "28px",
-                height: "28px",
-                borderRadius: "6px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-              title={isPlaying ? "Pausar ciclo automático" : "Reanudar ciclo"}
-            >
-              {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-            </button>
-
-            <button
-              onClick={nextScreen}
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "#94a3b8",
-                width: "28px",
-                height: "28px",
-                borderRadius: "6px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-              title="Siguiente sistema"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
-
-        {/* 5 Tab Buttons to directly select any system */}
+        {/* Phone body — uses a visible dark blue instead of near-black */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
-            gap: "6px",
+            width: "100%",
+            height: "100%",
+            background:
+              "linear-gradient(160deg, #1e3352 0%, #0e1f33 60%, #071428 100%)",
+            border: "2px solid rgba(0,210,255,0.5)",
+            borderRadius: "32px",
+            boxShadow:
+              "0 0 0 1px rgba(56,189,248,0.25), 0 25px 60px -10px rgba(0,0,0,0.8), 0 0 30px rgba(0,210,255,0.3), inset 0 1px 0 rgba(255,255,255,0.1)",
+            position: "relative",
+            overflow: "hidden",
           }}
-          className="system-tabs-grid"
         >
-          {SYSTEMS_LIST.map((sys, idx) => {
-            const isActive = activeScreenIndex === idx;
-            return (
-              <button
-                key={sys.id}
-                onClick={() => {
-                  setActiveScreenIndex(idx);
-                  setIsPlaying(false);
-                }}
-                style={{
-                  background: isActive ? "linear-gradient(135deg, rgba(0, 210, 255, 0.22) 0%, rgba(0, 112, 243, 0.28) 100%)" : "rgba(255,255,255,0.03)",
-                  border: `1px solid ${isActive ? "#00d2ff" : "rgba(255,255,255,0.06)"}`,
-                  borderRadius: "8px",
-                  padding: "6px 4px",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  transition: "all 0.25s ease",
-                  boxShadow: isActive ? "0 0 12px rgba(0, 210, 255, 0.25)" : "none",
-                }}
-              >
-                <span
-                  style={{
-                    display: "block",
-                    fontSize: "10px",
-                    fontWeight: 700,
-                    color: isActive ? "#ffffff" : "#94a3b8",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {sys.name.split(" ")[0]} {sys.name.split(" ")[1] || ""}
-                </span>
-                <span
-                  style={{
-                    display: "block",
-                    fontSize: "8.5px",
-                    color: isActive ? "#38bdf8" : "#64748b",
-                  }}
-                >
-                  {sys.category.split("&")[0]}
-                </span>
-              </button>
-            );
-          })}
+          {/* Screen area with video — starts at index 1 (phase offset) */}
+          <div
+            style={{
+              position: "absolute",
+              inset: "7px",
+              borderRadius: "25px",
+              overflow: "hidden",
+              /* Navy-blue instead of #000 while video loads */
+              background: "linear-gradient(160deg, #0a1829 0%, #040c18 100%)",
+            }}
+          >
+            <VideoPlayer borderRadius="24px" startIndex={1} showBadge={false} />
+          </div>
+
+          {/* Dynamic Island */}
+          <div
+            style={{
+              position: "absolute",
+              top: "12px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "44px",
+              height: "11px",
+              background: "#020810",
+              borderRadius: "12px",
+              zIndex: 20,
+              boxShadow: "0 0 8px rgba(0,0,0,0.8)",
+            }}
+          />
+
+          {/* Side button highlights */}
+          <div
+            style={{
+              position: "absolute",
+              right: "-2px",
+              top: "80px",
+              width: "3px",
+              height: "32px",
+              borderRadius: "2px 0 0 2px",
+              background: "linear-gradient(180deg, rgba(0,210,255,0.4) 0%, rgba(56,189,248,0.2) 100%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: "-2px",
+              top: "70px",
+              width: "3px",
+              height: "22px",
+              borderRadius: "0 2px 2px 0",
+              background: "linear-gradient(180deg, rgba(0,210,255,0.35) 0%, rgba(56,189,248,0.15) 100%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: "-2px",
+              top: "98px",
+              width: "3px",
+              height: "22px",
+              borderRadius: "0 2px 2px 0",
+              background: "linear-gradient(180deg, rgba(0,210,255,0.35) 0%, rgba(56,189,248,0.15) 100%)",
+            }}
+          />
+
+          {/* Phone shine overlay */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 45%, rgba(0,210,255,0.06) 100%)",
+              pointerEvents: "none",
+              borderRadius: "32px",
+            }}
+          />
         </div>
+
+        {/* Cast shadow */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "-22px",
+            left: "8%",
+            width: "84%",
+            height: "16px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(ellipse, rgba(0,0,0,0.8) 0%, rgba(0,210,255,0.14) 55%, transparent 80%)",
+            filter: "blur(9px)",
+            pointerEvents: "none",
+          }}
+        />
       </div>
 
+      {/* ━━━━━━━━━━━━━━ KEYFRAMES ━━━━━━━━━━━━━━ */}
       <style>{`
-        @media (max-width: 768px) {
-          .floating-stage-wrapper {
-            height: 380px !important;
-          }
-          .laptop-container {
-            width: 82% !important;
-            left: 2% !important;
-            transform: scale(0.85) rotateX(8deg) rotateY(-8deg) !important;
-          }
-          .phone-container {
-            width: 38% !important;
-            right: 0% !important;
-            transform: scale(0.85) rotateX(5deg) rotateY(10deg) !important;
-          }
-          .system-tabs-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-          }
+        @keyframes floatLaptop {
+          0%   { transform: translateY(0px)   translateX(0px)  rotate3d(1,1,0,0deg); }
+          25%  { transform: translateY(-10px) translateX(8px)  rotate3d(1,0,0,-1deg); }
+          50%  { transform: translateY(-18px) translateX(0px)  rotate3d(0,1,0,1.5deg); }
+          75%  { transform: translateY(-10px) translateX(-8px) rotate3d(1,0,0,1deg); }
+          100% { transform: translateY(0px)   translateX(0px)  rotate3d(1,1,0,0deg); }
+        }
+        @keyframes floatPhone {
+          0%   { transform: translateY(-14px) translateX(0px); }
+          30%  { transform: translateY(0px)   translateX(7px); }
+          60%  { transform: translateY(-8px)  translateX(-6px); }
+          100% { transform: translateY(-14px) translateX(0px); }
+        }
+        .float-laptop { animation: floatLaptop 7s ease-in-out infinite; }
+        .float-phone  { animation: floatPhone 5.5s ease-in-out infinite; }
+
+        @keyframes livePulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%      { opacity: 0.3; transform: scale(0.7); }
+        }
+
+        @keyframes shimmerLoad {
+          0%   { background-position: -200% 0; }
+          100% { background-position:  200% 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .float-laptop { width: 62% !important; }
+          .float-phone  { width: 26% !important; }
+        }
+        @media (max-width: 900px) {
+          .float-laptop { width: 74% !important; left: 0 !important; }
+          .float-phone  { right: 0 !important; width: 28% !important; }
+        }
+        @media (max-width: 600px) {
+          .float-phone  { display: none !important; }
+          .float-laptop { width: 96% !important; left: 2% !important; height: 260px !important; }
         }
       `}</style>
     </div>
   );
 };
-

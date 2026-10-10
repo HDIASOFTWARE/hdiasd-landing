@@ -11,16 +11,16 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
       id="servicios"
       style={{
         position: "relative",
-        padding: "100px 0 80px",
+        padding: "52px 0 44px",
         zIndex: 3,
       }}
     >
       <div className="container">
         {/* Section Header */}
-        <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 55px" }}>
+        <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 36px" }}>
           <span
             style={{
-              fontSize: "12px",
+              fontSize: "11px",
               fontWeight: 800,
               textTransform: "uppercase",
               letterSpacing: "1.5px",
@@ -31,39 +31,42 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             NUESTROS SERVICIOS
           </span>
           <h2
-            className="heading-title"
+            className="heading-title title-hover-glow"
             style={{
-              fontSize: "clamp(2rem, 3.8vw, 3rem)",
+              fontSize: "clamp(1.9rem, 3.5vw, 2.7rem)",
               fontWeight: 900,
               color: "#ffffff",
-              margin: "12px 0 16px",
+              margin: "8px 0 12px",
             }}
           >
             Soluciones digitales{" "}
             <span className="text-gradient">para cada etapa</span> de tu negocio
           </h2>
-          <p style={{ fontSize: "15px", color: "#94a3b8", lineHeight: 1.6 }}>
-            Desde una idea hasta un producto digital completo. Te acompañamos en todo el proceso con tecnología, diseño y estrategia.
+          <p
+            className="text-hover-neon"
+            style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.55, margin: "0 auto", maxWidth: "660px" }}
+          >
+            Desde una idea conceptual hasta un producto digital en producción. Te acompañamos en todo el ciclo con tecnología de punta y diseño de conversión.
           </p>
         </div>
 
-        {/* 3 Glassmorphism Service Cards */}
+        {/* 3 Interactive Service Cards */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: "28px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(310px, 1fr))",
+            gap: "22px",
           }}
         >
           {/* Card 1: Landing Pages */}
           <div
             className="glass-panel"
             style={{
-              padding: "36px 30px",
+              padding: "26px 24px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              borderRadius: "22px",
+              borderRadius: "18px",
               position: "relative",
               overflow: "hidden",
             }}
@@ -71,44 +74,48 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             <div>
               <div
                 style={{
-                  width: "56px",
-                  height: "56px",
-                  borderRadius: "16px",
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
                   background: "rgba(0, 210, 255, 0.12)",
                   border: "1px solid rgba(0, 210, 255, 0.3)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginBottom: "24px",
+                  marginBottom: "18px",
                   boxShadow: "0 0 20px rgba(0, 210, 255, 0.2)",
                 }}
               >
-                <Monitor size={28} color="#00d2ff" />
+                <Monitor size={25} color="#00d2ff" />
               </div>
 
               <h3
+                className="title-hover-glow"
                 style={{
-                  fontSize: "22px",
+                  fontSize: "20px",
                   fontWeight: 800,
                   color: "#ffffff",
-                  marginBottom: "12px",
+                  marginBottom: "8px",
                   fontFamily: "'Outfit', sans-serif",
                 }}
               >
                 Landing Pages
               </h3>
-              <p style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "24px" }}>
+              <p
+                className="text-hover-neon"
+                style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.55, marginBottom: "18px" }}
+              >
                 Páginas de alto impacto diseñadas para captar atención, generar confianza inmediata y convertir visitantes en clientes leales.
               </p>
 
-              {/* Mini Interactive Preview inside card */}
+              {/* Mini Preview inside card */}
               <div
                 style={{
                   background: "rgba(5, 11, 20, 0.8)",
                   borderRadius: "12px",
                   border: "1px solid rgba(255, 255, 255, 0.08)",
-                  padding: "14px",
-                  marginBottom: "24px",
+                  padding: "12px",
+                  marginBottom: "20px",
                   boxShadow: "inset 0 0 15px rgba(0, 0, 0, 0.6)",
                 }}
               >
@@ -117,13 +124,13 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                   <span style={{ color: "#00d2ff", fontWeight: 700 }}>A/B Ready</span>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
                     <CheckCircle2 size={13} color="#10b981" /> Titulares persuasivos y llamada clara
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
                     <CheckCircle2 size={13} color="#10b981" /> Carga rápida menor a 0.5 segundos
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
                     <CheckCircle2 size={13} color="#10b981" /> Integración con WhatsApp y CRM
                   </div>
                 </div>
@@ -140,13 +147,16 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                 gap: "8px",
                 color: "#38bdf8",
                 fontWeight: 700,
-                fontSize: "14px",
+                fontSize: "13.5px",
                 cursor: "pointer",
-                padding: "8px 0",
+                padding: "6px 0",
+                transition: "all 0.2s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#00d2ff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#38bdf8")}
             >
               <span>Explorar solución</span>
-              <ArrowRight size={16} />
+              <ArrowRight size={15} />
             </button>
           </div>
 
@@ -154,11 +164,11 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
           <div
             className="glass-panel"
             style={{
-              padding: "36px 30px",
+              padding: "26px 24px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              borderRadius: "22px",
+              borderRadius: "18px",
               position: "relative",
               overflow: "hidden",
             }}
@@ -166,33 +176,37 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             <div>
               <div
                 style={{
-                  width: "56px",
-                  height: "56px",
-                  borderRadius: "16px",
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
                   background: "rgba(0, 112, 243, 0.15)",
                   border: "1px solid rgba(56, 189, 248, 0.35)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginBottom: "24px",
+                  marginBottom: "18px",
                   boxShadow: "0 0 20px rgba(0, 112, 243, 0.25)",
                 }}
               >
-                <Globe size={28} color="#38bdf8" />
+                <Globe size={25} color="#38bdf8" />
               </div>
 
               <h3
+                className="title-hover-glow"
                 style={{
-                  fontSize: "22px",
+                  fontSize: "20px",
                   fontWeight: 800,
                   color: "#ffffff",
-                  marginBottom: "12px",
+                  marginBottom: "8px",
                   fontFamily: "'Outfit', sans-serif",
                 }}
               >
                 Sitios Web
               </h3>
-              <p style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "24px" }}>
+              <p
+                className="text-hover-neon"
+                style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.55, marginBottom: "18px" }}
+              >
                 Experiencias web modernas, rápidas, profesionales y adaptables a todos los dispositivos para posicionar tu empresa como líder del sector.
               </p>
 
@@ -202,8 +216,8 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                   background: "rgba(5, 11, 20, 0.8)",
                   borderRadius: "12px",
                   border: "1px solid rgba(255, 255, 255, 0.08)",
-                  padding: "14px",
-                  marginBottom: "24px",
+                  padding: "12px",
+                  marginBottom: "20px",
                   boxShadow: "inset 0 0 15px rgba(0, 0, 0, 0.6)",
                 }}
               >
@@ -212,13 +226,13 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                   <span style={{ color: "#38bdf8", fontWeight: 700 }}>SEO Pro</span>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
                     <CheckCircle2 size={13} color="#10b981" /> Catálogo de servicios autogestionable
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
                     <CheckCircle2 size={13} color="#10b981" /> Optimización en motores de búsqueda
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
                     <CheckCircle2 size={13} color="#10b981" /> Diseño responsive para móviles y tablets
                   </div>
                 </div>
@@ -235,13 +249,16 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                 gap: "8px",
                 color: "#38bdf8",
                 fontWeight: 700,
-                fontSize: "14px",
+                fontSize: "13.5px",
                 cursor: "pointer",
-                padding: "8px 0",
+                padding: "6px 0",
+                transition: "all 0.2s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#00d2ff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#38bdf8")}
             >
               <span>Explorar solución</span>
-              <ArrowRight size={16} />
+              <ArrowRight size={15} />
             </button>
           </div>
 
@@ -249,11 +266,11 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
           <div
             className="glass-panel"
             style={{
-              padding: "36px 30px",
+              padding: "26px 24px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              borderRadius: "22px",
+              borderRadius: "18px",
               position: "relative",
               overflow: "hidden",
             }}
@@ -261,33 +278,37 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             <div>
               <div
                 style={{
-                  width: "56px",
-                  height: "56px",
-                  borderRadius: "16px",
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
                   background: "rgba(168, 85, 247, 0.12)",
                   border: "1px solid rgba(168, 85, 247, 0.3)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginBottom: "24px",
+                  marginBottom: "18px",
                   boxShadow: "0 0 20px rgba(168, 85, 247, 0.2)",
                 }}
               >
-                <Smartphone size={28} color="#c084fc" />
+                <Smartphone size={25} color="#c084fc" />
               </div>
 
               <h3
+                className="title-hover-glow"
                 style={{
-                  fontSize: "22px",
+                  fontSize: "20px",
                   fontWeight: 800,
                   color: "#ffffff",
-                  marginBottom: "12px",
+                  marginBottom: "8px",
                   fontFamily: "'Outfit', sans-serif",
                 }}
               >
-                Apps & Sistemas
+                Apps &amp; Sistemas
               </h3>
-              <p style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "24px" }}>
+              <p
+                className="text-hover-neon"
+                style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.55, marginBottom: "18px" }}
+              >
                 Aplicaciones, paneles administrativos y soluciones personalizadas para automatizar procesos operativos y hacer crecer negocios.
               </p>
 
@@ -297,24 +318,24 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                   background: "rgba(5, 11, 20, 0.8)",
                   borderRadius: "12px",
                   border: "1px solid rgba(255, 255, 255, 0.08)",
-                  padding: "14px",
-                  marginBottom: "24px",
+                  padding: "12px",
+                  marginBottom: "20px",
                   boxShadow: "inset 0 0 15px rgba(0, 0, 0, 0.6)",
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "10px", color: "#64748b" }}>
-                  <span>SaaS & Automatización</span>
-                  <span style={{ color: "#c084fc", fontWeight: 700 }}>Realtime</span>
+                  <span>Desarrollo Full-Stack</span>
+                  <span style={{ color: "#c084fc", fontWeight: 700 }}>Custom SaaS</span>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
-                    <CheckCircle2 size={13} color="#10b981" /> Dashboards y métricas operativas
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                    <CheckCircle2 size={13} color="#10b981" /> Paneles con analítica en tiempo real
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
-                    <CheckCircle2 size={13} color="#10b981" /> Firma digital de documentos y PDFs
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                    <CheckCircle2 size={13} color="#10b981" /> Autenticación segura y roles de usuario
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
-                    <CheckCircle2 size={13} color="#10b981" /> Notificaciones push y WebSockets
+                  <div className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#e2e8f0" }}>
+                    <CheckCircle2 size={13} color="#10b981" /> Bases de datos PostgreSQL Cloud
                   </div>
                 </div>
               </div>
@@ -330,13 +351,16 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                 gap: "8px",
                 color: "#38bdf8",
                 fontWeight: 700,
-                fontSize: "14px",
+                fontSize: "13.5px",
                 cursor: "pointer",
-                padding: "8px 0",
+                padding: "6px 0",
+                transition: "all 0.2s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#00d2ff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#38bdf8")}
             >
               <span>Explorar solución</span>
-              <ArrowRight size={16} />
+              <ArrowRight size={15} />
             </button>
           </div>
         </div>
@@ -344,4 +368,3 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
     </section>
   );
 };
-

@@ -11,25 +11,25 @@ export const ValueProps: React.FC<ValuePropsSectionProps> = ({ onOpenContact }) 
       icon: Compass,
       color: "#00d2ff",
       title: "Diseño estratégico",
-      desc: "Cada detalle está pensado para convertir. Estructura visual, psicología del color y microinteracciones orientadas a resultados.",
+      desc: "Estructura visual, psicología del color y microinteracciones orientadas a maximizar conversiones y retención.",
     },
     {
       icon: Code2,
       color: "#38bdf8",
       title: "Desarrollo a medida",
-      desc: "Soluciones escalables y seguras para tu crecimiento. Código limpio, sin plantillas lentas ni dependencias innecesarias.",
+      desc: "Código limpio y moderno sin plantillas lentas ni dependencias innecesarias, preparado para escalar.",
     },
     {
       icon: Sparkles,
       color: "#d4af37",
       title: "Experiencia de usuario",
-      desc: "Interfaces intuitivas y fluidas que generan confianza inmediata y deleite en cada interacción digital.",
+      desc: "Interfaces ultra-rápidas y fluidas que transmiten autoridad y generan confianza inmediata en el cliente.",
     },
     {
       icon: Headphones,
       color: "#10b981",
-      title: "Soporte continuo",
-      desc: "Estamos contigo en cada etapa del proyecto. Mantenimiento, optimización y evolución constante de tus sistemas.",
+      title: "Soporte y evolución",
+      desc: "Acompañamiento técnico continuo, monitoreo de disponibilidad y mejoras periódicas de tus aplicaciones.",
     },
   ];
 
@@ -38,7 +38,7 @@ export const ValueProps: React.FC<ValuePropsSectionProps> = ({ onOpenContact }) 
       id="nosotros"
       style={{
         position: "relative",
-        padding: "90px 0 90px",
+        padding: "48px 0 44px",
         zIndex: 3,
       }}
     >
@@ -47,107 +47,124 @@ export const ValueProps: React.FC<ValuePropsSectionProps> = ({ onOpenContact }) 
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1.25fr",
-            gap: "50px",
+            gap: "36px",
             alignItems: "center",
           }}
-          className="value-grid"
+          className="valueprops-grid"
         >
-          {/* Left Column: Heading and Context */}
+          {/* Left: Text & CTA */}
           <div>
             <span
               style={{
-                fontSize: "12px",
+                fontSize: "11px",
                 fontWeight: 800,
-                textTransform: "uppercase",
                 letterSpacing: "1.5px",
-                color: "#38bdf8",
+                textTransform: "uppercase",
+                color: "#00d2ff",
                 fontFamily: "'Outfit', sans-serif",
+                display: "block",
+                marginBottom: "8px",
               }}
             >
               ¿POR QUÉ ELEGIRNOS?
             </span>
-
             <h2
-              className="heading-title"
+              className="heading-title title-hover-glow"
               style={{
-                fontSize: "clamp(2rem, 3.5vw, 3rem)",
+                fontSize: "clamp(1.9rem, 3.4vw, 2.6rem)",
                 fontWeight: 900,
                 color: "#ffffff",
-                margin: "12px 0 20px",
                 lineHeight: 1.15,
+                marginBottom: "14px",
               }}
             >
-              Tecnología, diseño y{" "}
-              <span className="text-gradient">resultados reales.</span>
+              Tecnología que impulsa el{" "}
+              <span className="text-gradient">crecimiento real</span> de tu marca
             </h2>
-
-            <p style={{ fontSize: "16px", color: "#94a3b8", lineHeight: 1.65, marginBottom: "32px" }}>
-              No solo creamos productos digitales, creamos herramientas estratégicas que trabajan para ti y hacen crecer tu negocio todos los días de forma autónoma.
+            <p
+              className="text-hover-neon"
+              style={{
+                fontSize: "13.5px",
+                color: "#94a3b8",
+                lineHeight: 1.55,
+                marginBottom: "22px",
+              }}
+            >
+              No creamos simples páginas web. Desarrollamos herramientas digitales completas y funcionales que resuelven problemas de negocio, automatizan tareas repetitivas y convierten usuarios en clientes recurrentes.
             </p>
 
             <button
               onClick={onOpenContact}
               className="btn-primary"
-              style={{
-                padding: "14px 30px",
-                fontSize: "14px",
-              }}
+              style={{ padding: "12px 26px", fontSize: "14px" }}
             >
-              <span>Conoce más y cotiza</span>
+              <span>Hablemos de tu idea</span>
               <ArrowRight size={16} />
             </button>
           </div>
 
-          {/* Right Column: 4 Strategic Pillars */}
+          {/* Right: 4 Interactive Pillars */}
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              gap: "18px",
+              gap: "14px",
             }}
             className="pillars-grid"
           >
             {pillars.map((pil, idx) => {
-              const IconComp = pil.icon;
+              const Icon = pil.icon;
               return (
                 <div
                   key={idx}
                   className="glass-panel"
                   style={{
-                    padding: "26px 22px",
-                    borderRadius: "18px",
-                    border: "1px solid rgba(255, 255, 255, 0.07)",
+                    padding: "20px 18px",
+                    borderRadius: "16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    border: "1px solid rgba(56, 189, 248, 0.14)",
                   }}
                 >
                   <div
                     style={{
-                      width: "46px",
-                      height: "46px",
-                      borderRadius: "12px",
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "10px",
                       background: `${pil.color}18`,
                       border: `1px solid ${pil.color}40`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginBottom: "16px",
+                      color: pil.color,
+                      marginBottom: "4px",
+                      transition: "transform 0.25s ease",
                     }}
                   >
-                    <IconComp size={22} color={pil.color} />
+                    <Icon size={20} />
                   </div>
-
                   <h4
+                    className="title-hover-glow"
                     style={{
-                      fontSize: "17px",
+                      fontSize: "15.5px",
                       fontWeight: 800,
                       color: "#ffffff",
-                      marginBottom: "8px",
                       fontFamily: "'Outfit', sans-serif",
+                      margin: 0,
                     }}
                   >
                     {pil.title}
                   </h4>
-
-                  <p style={{ fontSize: "12.5px", color: "#94a3b8", lineHeight: 1.55 }}>
+                  <p
+                    className="text-hover-neon"
+                    style={{
+                      fontSize: "12px",
+                      color: "#94a3b8",
+                      lineHeight: 1.5,
+                      margin: 0,
+                    }}
+                  >
                     {pil.desc}
                   </p>
                 </div>
@@ -159,10 +176,11 @@ export const ValueProps: React.FC<ValuePropsSectionProps> = ({ onOpenContact }) 
 
       <style>{`
         @media (max-width: 900px) {
-          .value-grid {
+          .valueprops-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
           }
+        }
+        @media (max-width: 550px) {
           .pillars-grid {
             grid-template-columns: 1fr !important;
           }
@@ -171,4 +189,3 @@ export const ValueProps: React.FC<ValuePropsSectionProps> = ({ onOpenContact }) 
     </section>
   );
 };
-
