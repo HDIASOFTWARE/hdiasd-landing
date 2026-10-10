@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# APK Binaries (Hosted on GitHub Releases)
+*.apk
+public/downloads/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
