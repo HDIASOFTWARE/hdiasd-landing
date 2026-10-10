@@ -4,8 +4,8 @@
    VIDEO PLAYLIST - consecutive playback, infinite loop
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 const PLAYLIST = [
-  "https://res.cloudinary.com/dyk0dfbjo/video/upload/q_auto,f_auto/v1791599170/video_2026-10-09_22-25-42_r9xdrc.mp4",
-  "https://res.cloudinary.com/dyk0dfbjo/video/upload/q_auto,f_auto/v1791599170/video_2026-10-09_22-25-26_nmrldv.mp4",
+  "https://res.cloudinary.com/dyk0dfbjo/video/upload/v1791599170/video_2026-10-09_22-25-42_r9xdrc.mp4",
+  "https://res.cloudinary.com/dyk0dfbjo/video/upload/v1791599170/video_2026-10-09_22-25-26_nmrldv.mp4",
 ];
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -60,7 +60,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         autoPlay
         muted
         playsInline
-        preload="auto"
+        poster={PLAYLIST[idx].slice(0,-4)+'.jpg'} preload="auto"
         onEnded={handleEnded}
         style={{
           position: "absolute",
