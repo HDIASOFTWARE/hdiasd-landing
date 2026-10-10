@@ -38,7 +38,7 @@ const PROJECTS: ProjectItem[] = [
       { label: "Almacenamiento", value: "Cloud DB Seguro" },
       { label: "Arquitectura", value: "React Native + Supabase" },
     ],
-    downloadUrl: "#descargar-climup",
+    downloadUrl: "https://github.com/HDIASOFTWARE/hdiasd-landing/releases/download/v1.0.0/CLIMUP.apk",
     downloadLabel: "DESCARGA APK",
   },
   {
@@ -82,7 +82,7 @@ const PROJECTS: ProjectItem[] = [
       { label: "Stack", value: "Next.js + TypeScript + PostgreSQL" },
       { label: "Disponibilidad", value: "99.98% Uptime" },
     ],
-    downloadUrl: "#descargar-travelos",
+    downloadUrl: "https://wa.me/18496584957?text=Hola%2C%20deseo%20probar%20la%20demo%20de%20TravelOS%20VIP",
     downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-travelos",
   },
@@ -105,7 +105,7 @@ const PROJECTS: ProjectItem[] = [
       { label: "Base de Datos", value: "PostgreSQL Cloud" },
       { label: "Tema", value: "OLED Dark Mode" },
     ],
-    downloadUrl: "#descargar-autoos",
+    downloadUrl: "https://github.com/HDIASOFTWARE/hdiasd-landing/releases/download/v1.0.0/AutoOS.apk",
     downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-autoos",
   },
@@ -128,7 +128,7 @@ const PROJECTS: ProjectItem[] = [
       { label: "Velocidad", value: "1.2s promedio" },
       { label: "Integracion", value: "REST API / Webhook" },
     ],
-    downloadUrl: "#descargar-ai-parser",
+    downloadUrl: "https://wa.me/18496584957?text=Hola%2C%20deseo%20una%20demostracion%20del%20AI%20Voucher%20Parser",
     downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-ai",
   },
@@ -151,7 +151,7 @@ const PROJECTS: ProjectItem[] = [
       { label: "Operacion", value: "Charters & Flota Nautica" },
       { label: "Motor", value: "PostgreSQL + GPS Tracker" },
     ],
-    downloadUrl: "#descargar-nauticos",
+    downloadUrl: "https://github.com/HDIASOFTWARE/hdiasd-landing/releases/download/v1.0.0/NauticOS.apk",
     downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-nauticos",
   },
@@ -167,9 +167,6 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
 
   const filtered = filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
-  const handleDownload = (p: ProjectItem) => {
-    alert(`Iniciando descarga directa de ${p.title}. El archivo APK oficial comenzara a descargarse en tu dispositivo.`);
-  };
 
   const handleOpenPolicies = (proj: ProjectItem) => {
     setSelectedPolicyProject({
@@ -423,9 +420,13 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
                         <span>Ver Sitio Web</span>
                       </a>
                     ) : proj.downloadUrl ? (
-                      <button
-                        onClick={() => handleDownload(proj)}
+                      <a
+                        href={proj.downloadUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
                         style={{
+                          textDecoration: "none",
                           flex: 1.3,
                           display: "inline-flex",
                           alignItems: "center",
@@ -445,7 +446,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
                       >
                         <Download size={14} />
                         <span>DESCARGA APK</span>
-                      </button>
+                      </a>
                     ) : null}
 
                     {/* Politicas Button */}
