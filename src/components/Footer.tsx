@@ -96,7 +96,7 @@ export const Footer: React.FC = () => {
               Descargas (APK)
             </h5>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "12.5px", color: "#94a3b8" }}>
-              <a href="#proyectos" className="footer-link" style={{ color: "#00d2ff", fontWeight: 700 }}>CLIMUP APK</a>
+              <a href="#proyectos" className="footer-link">CLIMUP APK</a>
               <a href="#proyectos" className="footer-link">NauticOS App (Yates VIP)</a>
               <a href="#proyectos" className="footer-link">AutoOS Rent-a-Car</a>
               <a href="#proyectos" className="footer-link">TravelOS VIP SaaS</a>
@@ -200,3 +200,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
