@@ -6,6 +6,7 @@ const DOWNLOAD_BASE: Record<string, number> = {
   climup: 172,
   autoos: 137,
   nauticos: 77,
+  travelos: 54,
 };
 
 function getDownloadCount(id: string): number {
@@ -479,4 +480,5 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
     </section>
   );
 };
+
 
