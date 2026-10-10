@@ -14,9 +14,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
 
   return (
     <>
-      {/* 🔮 STICKY DEVICES & CYBER BACKGROUND LAYER 🔮 */}
+      {/* BACKGROUND LAYER — only visible on desktop (min 900px), hidden on mobile */}
       <div
         id="devices-sticky"
+        className="hero-bg-layer"
         style={{
           position: "sticky",
           top: 0,
@@ -29,21 +30,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
         }}
       >
         {/* Deep dark gradient */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(135deg, #020812 0%, #040e1e 55%, #030a17 100%)",
-          }}
-        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #020812 0%, #040e1e 55%, #030a17 100%)" }} />
 
-        {/* Neon curved SVG lines */}
-        <svg
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-          viewBox="0 0 1400 900"
-          preserveAspectRatio="xMidYMid slice"
-          fill="none"
-        >
+        {/* Neon lines SVG */}
+        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" fill="none">
           <defs>
             <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor="#00d2ff" stopOpacity="0" />
@@ -71,47 +61,18 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
         <div style={{ position: "absolute", top: "12%", right: "6%", width: "540px", height: "540px", borderRadius: "50%", background: "radial-gradient(circle, rgba(0,210,255,0.2) 0%, rgba(0,112,243,0.1) 45%, transparent 70%)", filter: "blur(80px)" }} />
         <div style={{ position: "absolute", bottom: "8%", left: "5%", width: "340px", height: "340px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)", filter: "blur(70px)" }} />
 
-        {/* 💻 DEVICES POSITIONED STRICTLY ON THE RIGHT HALF 💻 */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingTop: "60px",
-            pointerEvents: "auto",
-          }}
-        >
-          <div
-            className="container"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1.25fr",
-              gap: "40px",
-              width: "100%",
-              alignItems: "center",
-            }}
-          >
-            {/* Left column empty in background layer so text breathes freely */}
-            <div className="hero-left-spacer" />
-
-            {/* Right column: 3D interactive Laptop & Phone */}
-            <div
-              className="hero-devices-col"
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                width: "100%",
-              }}
-            >
+        {/* Devices — right column */}
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", paddingTop: "60px", pointerEvents: "auto" }}>
+          <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1.25fr", gap: "40px", width: "100%", alignItems: "center" }}>
+            <div />
+            <div style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
               <FloatingDevices />
             </div>
           </div>
         </div>
       </div>
 
-      {/* 🚀 FOREGROUND HERO CONTENT (Left text aligned, right transparent) 🚀 */}
+      {/* FOREGROUND HERO CONTENT */}
       <section
         id="inicio"
         style={{
@@ -125,8 +86,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
           pointerEvents: "auto",
         }}
       >
+        {/* Mobile background overlay so text stays readable */}
+        <div className="hero-mobile-bg" />
+
         <div
-          className="container"
+          className="container hero-grid"
           style={{
             position: "relative",
             zIndex: 5,
@@ -137,145 +101,90 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
             width: "100%",
           }}
         >
-          {/* 📝 LEFT: TEXT COLUMN - PUSHED TO LEFT WITH CLEAR BREATHING SPACE 📝 */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "18px",
-              maxWidth: "520px",
-            }}
-          >
+          {/* LEFT: Text column */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "18px", maxWidth: "520px" }}>
             {/* Badge */}
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                background: "rgba(9, 21, 39, 0.85)",
-                border: "1px solid rgba(56, 189, 248, 0.35)",
-                padding: "6px 15px",
-                borderRadius: "999px",
-                backdropFilter: "blur(14px)",
-                boxShadow: "0 0 16px rgba(0, 210, 255, 0.16)",
-              }}
-            >
-              <div
-                style={{
-                  width: "7px",
-                  height: "7px",
-                  borderRadius: "50%",
-                  background: "#00d2ff",
-                  boxShadow: "0 0 10px #00d2ff",
-                  animation: "badgePulseGlow 2s infinite ease-in-out",
-                }}
-              />
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  letterSpacing: "1.2px",
-                  textTransform: "uppercase",
-                  color: "#38bdf8",
-                  fontFamily: "'Outfit', sans-serif",
-                }}
-              >
-                BUILD LANDING PAGE &amp; APPS
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(9,21,39,0.85)", border: "1px solid rgba(56,189,248,0.35)", padding: "6px 15px", borderRadius: "999px", backdropFilter: "blur(14px)", boxShadow: "0 0 16px rgba(0,210,255,0.16)" }}>
+              <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#00d2ff", boxShadow: "0 0 10px #00d2ff", animation: "badgePulseGlow 2s infinite ease-in-out" }} />
+              <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: "#38bdf8", fontFamily: "'Outfit', sans-serif" }}>
+                BUILD LANDING PAGE & APPS
               </span>
             </div>
 
-            {/* Main headline with cursor hover effect */}
-            <h1
-              className="title-hover-glow"
-              style={{
-                fontSize: "clamp(2.1rem, 4vw, 3.4rem)",
-                fontWeight: 900,
-                lineHeight: 1.14,
-                color: "#ffffff",
-                margin: 0,
-              }}
-            >
-              Tu próxima gran idea merece una{" "}
+            {/* Headline */}
+            <h1 className="title-hover-glow" style={{ fontSize: "clamp(1.9rem, 5vw, 3.4rem)", fontWeight: 900, lineHeight: 1.14, color: "#ffffff", margin: 0 }}>
+              Tu proxima gran idea merece una{" "}
               <span className="text-gradient">experiencia digital</span>{" "}
               extraordinaria.
             </h1>
 
-            {/* Subtitle with cursor interactive hover */}
-            <p
-              className="text-hover-neon"
-              style={{
-                fontSize: "clamp(0.95rem, 1.4vw, 1.1rem)",
-                color: "#94a3b8",
-                lineHeight: 1.6,
-                margin: 0,
-              }}
-            >
-              Diseñamos y desarrollamos soluciones digitales que impulsan tu negocio al siguiente nivel: software web, apps móviles y automatización inteligente.
+            {/* Subtitle */}
+            <p className="text-hover-neon" style={{ fontSize: "clamp(0.88rem, 1.4vw, 1.05rem)", color: "#94a3b8", lineHeight: 1.6, margin: 0 }}>
+              Disenamos y desarrollamos soluciones digitales que impulsan tu negocio al siguiente nivel: software web, apps moviles y automatizacion inteligente.
             </p>
 
             {/* CTAs */}
             <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", marginTop: "4px" }}>
-              <button
-                onClick={onOpenContact}
-                className="btn-primary"
-                style={{ fontSize: "14.5px", padding: "13px 30px" }}
-              >
+              <button onClick={onOpenContact} className="btn-primary" style={{ fontSize: "14.5px", padding: "13px 30px" }}>
                 <span>Comenzar ahora</span>
                 <ArrowRight size={16} />
               </button>
-              <button
-                onClick={scrollToProjects}
-                className="btn-secondary"
-                style={{ fontSize: "14.5px", padding: "13px 24px" }}
-              >
+              <button onClick={scrollToProjects} className="btn-secondary" style={{ fontSize: "14.5px", padding: "13px 24px" }}>
                 <Play size={14} fill="#00d2ff" color="#00d2ff" />
-                <span>Ver demo &amp; Proyectos</span>
+                <span>Ver demo & Proyectos</span>
               </button>
             </div>
 
-            {/* Micro proofs with hover feedback */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "18px",
-                fontSize: "12px",
-                color: "#64748b",
-                flexWrap: "wrap",
-                marginTop: "6px",
-              }}
-            >
+            {/* Trust badges */}
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "12px", color: "#64748b", flexWrap: "wrap", marginTop: "6px" }}>
               <span className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <Zap size={13} color="#00d2ff" /> 100% Código a Medida
+                <Zap size={13} color="#00d2ff" /> 100% Codigo a Medida
               </span>
               <span className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <ShieldCheck size={13} color="#10b981" /> Alta Conversión
+                <ShieldCheck size={13} color="#10b981" /> Alta Conversion
               </span>
               <span className="feature-hover-row" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <Sparkles size={13} color="#d4af37" /> Motion &amp; 3D
+                <Sparkles size={13} color="#d4af37" /> Motion & 3D
               </span>
             </div>
           </div>
 
-          {/* 📱 RIGHT: Empty column allowing devices in sticky layer to show clearly without overlapping 📱 */}
+          {/* RIGHT: spacer for desktop devices layer */}
           <div className="hero-right-spacer" style={{ height: "460px" }} />
         </div>
       </section>
 
       <style>{`
-        @media (max-width: 900px) {
-          #inicio .container {
-            grid-template-columns: 1fr !important;
-          }
-          .hero-devices-col {
-            justify-content: center !important;
-          }
-          .hero-left-spacer {
+        /* Mobile: single column, no devices layer, no black void */
+        @media (max-width: 899px) {
+          .hero-bg-layer {
             display: none !important;
           }
+          .hero-mobile-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #020812 0%, #040e1e 55%, #030a17 100%);
+            z-index: 0;
+            pointer-events: none;
+          }
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+          }
           .hero-right-spacer {
-            height: 380px !important;
+            display: none !important;
+          }
+          #inicio {
+            min-height: auto !important;
+            padding-top: 110px !important;
+            padding-bottom: 60px !important;
+          }
+          #inicio .container > div:first-child {
+            max-width: 100% !important;
+          }
+        }
+        @media (min-width: 900px) {
+          .hero-mobile-bg {
+            display: none;
           }
         }
       `}</style>
