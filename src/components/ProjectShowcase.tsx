@@ -1,12 +1,12 @@
 ﻿import React, { useState } from "react";
-import { Download, ExternalLink, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Download, ExternalLink, CheckCircle2, ShieldCheck, Globe } from "lucide-react";
 import { PolicyModal, type ProjectPolicyData } from "./PolicyModal";
 
 export interface ProjectItem {
   id: string;
   title: string;
   version: string;
-  category: "mobile" | "saas" | "ai";
+  category: "mobile" | "saas" | "ai" | "webpage";
   categoryLabel: string;
   badgeColor: string;
   description: string;
@@ -15,21 +15,22 @@ export interface ProjectItem {
   downloadUrl?: string;
   downloadLabel?: string;
   demoUrl?: string;
+  liveUrl?: string;
 }
 
 const PROJECTS: ProjectItem[] = [
   {
     id: "climup",
-    title: "CLIMUP - Sistema Operativo de Climatización",
+    title: "CLIMUP - Sistema Operativo de Climatizacion",
     version: "Release Oficial",
     category: "mobile",
-    categoryLabel: "App Móvil Android & Cloud",
+    categoryLabel: "App Movil Android & Cloud",
     badgeColor: "#0284c7",
-    description: "Software especializado para empresas de climatización y refrigeración. Incluye registro de servicios técnicos, recordatorios automáticos de mantenimiento cada 120/150 días, firma digital remota y generación de facturas en PDF.",
+    description: "Software especializado para empresas de climatizacion y refrigeracion. Incluye registro de servicios tecnicos, recordatorios automaticos de mantenimiento cada 120/150 dias, firma digital remota y generacion de facturas en PDF.",
     features: [
       "Firma digital del cliente desde la web en tiempo real",
-      "Notificaciones automáticas en el teléfono 5 días antes de cada mantenimiento",
-      "Generador de informes técnicos y facturas PDF oficiales",
+      "Notificaciones automaticas en el telefono 5 dias antes de cada mantenimiento",
+      "Generador de informes tecnicos y facturas PDF oficiales",
       "Historial de servicios y equipos por cliente",
     ],
     specs: [
@@ -39,7 +40,28 @@ const PROJECTS: ProjectItem[] = [
     ],
     downloadUrl: "#descargar-climup",
     downloadLabel: "DESCARGA APK",
-    demoUrl: "https://climup.app",
+  },
+  {
+    id: "iloratour",
+    title: "iLora Tour & Travels - Agencia de Viajes de Lujo",
+    version: "Web Page Live",
+    category: "webpage",
+    categoryLabel: "Pagina Web Corporativa",
+    badgeColor: "#f59e0b",
+    description: "Sitio web corporativo de alto impacto para iLora Tour & Travels, agencia de viajes de lujo en Republica Dominicana. Catalogo de paquetes VIP, hoteles todo incluido, cruceros, excursiones y rent car con mas de 12,000 clientes satisfechos y calificacion 4.9 estrellas en Google.",
+    features: [
+      "Catalogo interactivo de hoteles todo incluido, cruceros premium y excursiones VIP",
+      "Sistema de cotizacion y contacto directo integrado con WhatsApp",
+      "SEO avanzado posicionado para turismo dominicano: Google 4.9 / 12,000 resenas",
+      "Google Analytics 4 + Microsoft Clarity (heatmaps y grabacion de sesiones)",
+    ],
+    specs: [
+      { label: "Tipo", value: "Landing Corporativa" },
+      { label: "Valoracion", value: "4.9 / +12,000 clientes" },
+      { label: "SEO", value: "Schema.org + GA4 + RD" },
+    ],
+    liveUrl: "https://www.iloratour.com",
+    demoUrl: "https://www.iloratour.com",
   },
   {
     id: "travelos",
@@ -48,12 +70,12 @@ const PROJECTS: ProjectItem[] = [
     category: "saas",
     categoryLabel: "SaaS Multi-Tenant Cloud",
     badgeColor: "#d4af37",
-    description: "Solución integral para agencias de viajes y turismo VIP. Manejo de reservas de vuelos, yates de lujo, hoteles y vehículos con aislamiento criptográfico RLS por agencia y parser inteligente de vouchers.",
+    description: "Solucion integral para agencias de viajes y turismo VIP. Manejo de reservas de vuelos, yates de lujo, hoteles y vehiculos con aislamiento criptografico RLS por agencia y parser inteligente de vouchers.",
     features: [
       "Aislamiento estricto multi-tenant con Row Level Security",
-      "Cotizador automático de itinerarios y comisiones",
-      "Módulo de reservas con firma y voucher digital",
-      "Centro de control administrativo con auditoría total",
+      "Cotizador automatico de itinerarios y comisiones",
+      "Modulo de reservas con firma y voucher digital",
+      "Centro de control administrativo con auditoria total",
     ],
     specs: [
       { label: "Tipo", value: "Web App SaaS" },
@@ -69,14 +91,14 @@ const PROJECTS: ProjectItem[] = [
     title: "AutoOS - Control de Flotas & Rent-a-Car",
     version: "Pro Enterprise",
     category: "mobile",
-    categoryLabel: "Gestión de Flotas & Alquiler",
+    categoryLabel: "Gestion de Flotas & Alquiler",
     badgeColor: "#10b981",
-    description: "Sistema operativo para agencias de alquiler y flotas vehiculares. Control de disponibilidad en tiempo real, contratos de alquiler, checklist de inspección fotográfica y liquidación de garantías.",
+    description: "Sistema operativo para agencias de alquiler y flotas vehiculares. Control de disponibilidad en tiempo real, contratos de alquiler, checklist de inspeccion fotografica y liquidacion de garantias.",
     features: [
-      "Inspección de vehículos con fotografías de antes y después",
+      "Inspeccion de vehiculos con fotografias de antes y despues",
       "Contratos de alquiler con firma digital en pantalla",
-      "Control de mantenimiento por kilometraje y días",
-      "Catálogo interactivo con selector de flota",
+      "Control de mantenimiento por kilometraje y dias",
+      "Catalogo interactivo con selector de flota",
     ],
     specs: [
       { label: "Plataforma", value: "Web & Android" },
@@ -89,22 +111,22 @@ const PROJECTS: ProjectItem[] = [
   },
   {
     id: "ai-parser",
-    title: "AI Voucher Parser & Auditoría",
+    title: "AI Voucher Parser & Auditoria",
     version: "API Cloud",
     category: "ai",
     categoryLabel: "Inteligencia Artificial & OCR",
     badgeColor: "#a855f7",
-    description: "Motor inteligente de lectura y validación automática de comprobantes de transferencia bancaria. Extrae montos, fechas, números de referencia y nombres de cuenta para conciliación inmediata.",
+    description: "Motor inteligente de lectura y validacion automatica de comprobantes de transferencia bancaria. Extrae montos, fechas, numeros de referencia y nombres de cuenta para conciliacion inmediata.",
     features: [
-      "Extracción instantánea de datos bancarios con IA",
-      "Detección de duplicados y prevención de fraudes",
-      "Integración por Webhook a cualquier sistema o bot",
+      "Extraccion instantanea de datos bancarios con IA",
+      "Deteccion de duplicados y prevencion de fraudes",
+      "Integracion por Webhook a cualquier sistema o bot",
       "Procesamiento en menos de 1.2 segundos",
     ],
     specs: [
-      { label: "Precisión", value: "99.8% Reconocimiento" },
+      { label: "Precision", value: "99.8% Reconocimiento" },
       { label: "Velocidad", value: "1.2s promedio" },
-      { label: "Integración", value: "REST API / Webhook" },
+      { label: "Integracion", value: "REST API / Webhook" },
     ],
     downloadUrl: "#descargar-ai-parser",
     downloadLabel: "DESCARGA APK",
@@ -112,21 +134,21 @@ const PROJECTS: ProjectItem[] = [
   },
   {
     id: "nauticos",
-    title: "NauticOS App - Gestión Náutica & Yates VIP",
+    title: "NauticOS App - Gestion Nautica & Yates VIP",
     version: "Marine Pro",
     category: "mobile",
-    categoryLabel: "App Náutica & Flota VIP",
+    categoryLabel: "App Nautica & Flota VIP",
     badgeColor: "#06b6d4",
-    description: "Plataforma integral de administración y fletamento para agencias de yates, catamaranes y charters de lujo. Control de disponibilidad de embarcaciones, contratos de fletamento con firma digital, asignación de capitanes y bitácora de navegación marítima.",
+    description: "Plataforma integral de administracion y fletamento para agencias de yates, catamaranes y charters de lujo. Control de disponibilidad de embarcaciones, contratos de fletamento con firma digital, asignacion de capitanes y bitacora de navegacion maritima.",
     features: [
-      "Catálogo y estado en tiempo real de yates, lanchas y veleros",
-      "Contratos marítimos digitales con firma del cliente y capitán",
-      "Control de tripulación, combustible, horas de motor e inspecciones",
-      "Liquidación de depósitos de garantía y reservas de charters VIP",
+      "Catalogo y estado en tiempo real de yates, lanchas y veleros",
+      "Contratos maritimos digitales con firma del cliente y capitan",
+      "Control de tripulacion, combustible, horas de motor e inspecciones",
+      "Liquidacion de depositos de garantia y reservas de charters VIP",
     ],
     specs: [
       { label: "Plataforma", value: "Android (APK) & Web" },
-      { label: "Operación", value: "Charters & Flota Náutica" },
+      { label: "Operacion", value: "Charters & Flota Nautica" },
       { label: "Motor", value: "PostgreSQL + GPS Tracker" },
     ],
     downloadUrl: "#descargar-nauticos",
@@ -140,13 +162,13 @@ interface ProjectShowcaseProps {
 }
 
 export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact }) => {
-  const [filter, setFilter] = useState<"all" | "mobile" | "saas" | "ai">("all");
+  const [filter, setFilter] = useState<"all" | "mobile" | "saas" | "ai" | "webpage">("all");
   const [selectedPolicyProject, setSelectedPolicyProject] = useState<ProjectPolicyData | null>(null);
 
   const filtered = filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
   const handleDownload = (p: ProjectItem) => {
-    alert(`Iniciando descarga directa de ${p.title}. El archivo APK oficial comenzará a descargarse en tu dispositivo.`);
+    alert(`Iniciando descarga directa de ${p.title}. El archivo APK oficial comenzara a descargarse en tu dispositivo.`);
   };
 
   const handleOpenPolicies = (proj: ProjectItem) => {
@@ -200,7 +222,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
             className="text-hover-neon"
             style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.55, margin: "0 auto", maxWidth: "680px" }}
           >
-            Explora directamente los sistemas de software y aplicaciones que desarrollamos. Descarga los instalables o consulta las políticas y demostraciones de cada plataforma.
+            Explora directamente los sistemas de software, aplicaciones y sitios web que desarrollamos. Descarga los instalables o consulta las politicas y demostraciones de cada plataforma.
           </p>
 
           {/* Filter Bar */}
@@ -212,16 +234,17 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
               borderRadius: "999px",
               padding: "4px",
               marginTop: "20px",
-              gap: "6px",
+              gap: "5px",
               flexWrap: "wrap",
               justifyContent: "center",
             }}
           >
             {[
               { id: "all", label: "Todos los proyectos" },
-              { id: "mobile", label: "Apps Móviles (APK)" },
-              { id: "saas", label: "SaaS & Plataformas Web" },
-              { id: "ai", label: "IA & Automatización" },
+              { id: "mobile", label: "Apps Moviles (APK)" },
+              { id: "saas", label: "SaaS & Plataformas" },
+              { id: "webpage", label: "Paginas Web" },
+              { id: "ai", label: "IA & OCR" },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -230,9 +253,9 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
                   background: filter === tab.id ? "linear-gradient(135deg, #00d2ff 0%, #0070f3 100%)" : "transparent",
                   color: filter === tab.id ? "#ffffff" : "#94a3b8",
                   border: "none",
-                  padding: "7px 16px",
+                  padding: "7px 15px",
                   borderRadius: "999px",
-                  fontSize: "12.5px",
+                  fontSize: "12px",
                   fontWeight: filter === tab.id ? 700 : 500,
                   cursor: "pointer",
                   transition: "all 0.25s ease",
@@ -252,177 +275,232 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ onOpenContact 
             gap: "22px",
           }}
         >
-          {filtered.map((proj) => (
-            <div
-              key={proj.id}
-              className="glass-panel"
-              style={{
-                padding: "26px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                borderRadius: "18px",
-                border: "1px solid rgba(56, 189, 248, 0.16)",
-              }}
-            >
-              <div>
-                {/* Top Badge & Version */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-                  <span
+          {filtered.map((proj) => {
+            const isWebPage = proj.category === "webpage";
+
+            return (
+              <div
+                key={proj.id}
+                className="glass-panel"
+                style={{
+                  padding: "26px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  borderRadius: "18px",
+                  border: isWebPage
+                    ? "1px solid rgba(245, 158, 11, 0.28)"
+                    : "1px solid rgba(56, 189, 248, 0.16)",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Web Page ribbon tag */}
+                {isWebPage && (
+                  <div
                     style={{
-                      background: `rgba(0, 210, 255, 0.12)`,
-                      color: proj.badgeColor,
-                      border: `1px solid ${proj.badgeColor}40`,
-                      fontSize: "10.5px",
-                      fontWeight: 700,
-                      padding: "4px 9px",
-                      borderRadius: "6px",
-                      textTransform: "uppercase",
+                      position: "absolute",
+                      top: "14px",
+                      right: "-22px",
+                      background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                      color: "#000",
+                      fontSize: "9px",
+                      fontWeight: 900,
+                      letterSpacing: "1px",
+                      padding: "4px 28px",
+                      transform: "rotate(35deg)",
+                      boxShadow: "0 2px 10px rgba(245,158,11,0.5)",
+                      zIndex: 10,
                     }}
                   >
-                    {proj.categoryLabel}
-                  </span>
-                  <span style={{ fontSize: "11px", color: "#64748b", fontWeight: 700 }}>
-                    {proj.version}
-                  </span>
-                </div>
+                    WEB
+                  </div>
+                )}
 
-                <h3
-                  className="title-hover-glow"
-                  style={{
-                    fontSize: "19px",
-                    fontWeight: 800,
-                    color: "#ffffff",
-                    marginBottom: "8px",
-                    fontFamily: "'Outfit', sans-serif",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {proj.title}
-                </h3>
-
-                <p
-                  className="text-hover-neon"
-                  style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.55, marginBottom: "16px" }}
-                >
-                  {proj.description}
-                </p>
-
-                {/* Features List */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "18px" }}>
-                  {proj.features.map((feat, i) => (
-                    <div key={i} className="feature-hover-row" style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "12px", color: "#e2e8f0" }}>
-                      <CheckCircle2 size={14} color="#00d2ff" style={{ flexShrink: 0, marginTop: "2px", transition: "transform 0.2s ease" }} />
-                      <span>{feat}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Specs bar */}
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr",
-                    gap: "6px",
-                    background: "rgba(5, 11, 20, 0.8)",
-                    border: "1px solid rgba(255, 255, 255, 0.06)",
-                    borderRadius: "10px",
-                    padding: "8px",
-                    marginBottom: "18px",
-                    textAlign: "center",
-                  }}
-                >
-                  {proj.specs.map((sp, idx) => (
-                    <div key={idx}>
-                      <span style={{ fontSize: "9px", color: "#64748b", display: "block" }}>{sp.label}</span>
-                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#cbd5e1" }}>{sp.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Buttons: DESCARGA APK + Políticas + Solicitar Demo */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "14px" }}>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  {proj.downloadUrl && (
-                    <button
-                      onClick={() => handleDownload(proj)}
+                <div>
+                  {/* Top Badge & Version */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
+                    <span
                       style={{
-                        flex: 1.3,
+                        background: isWebPage ? "rgba(245, 158, 11, 0.12)" : "rgba(0, 210, 255, 0.12)",
+                        color: proj.badgeColor,
+                        border: `1px solid ${proj.badgeColor}40`,
+                        fontSize: "10.5px",
+                        fontWeight: 700,
+                        padding: "4px 9px",
+                        borderRadius: "6px",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {proj.categoryLabel}
+                    </span>
+                    <span style={{ fontSize: "11px", color: "#64748b", fontWeight: 700 }}>
+                      {proj.version}
+                    </span>
+                  </div>
+
+                  <h3
+                    className="title-hover-glow"
+                    style={{
+                      fontSize: "19px",
+                      fontWeight: 800,
+                      color: "#ffffff",
+                      marginBottom: "8px",
+                      fontFamily: "'Outfit', sans-serif",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {proj.title}
+                  </h3>
+
+                  <p
+                    className="text-hover-neon"
+                    style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.55, marginBottom: "16px" }}
+                  >
+                    {proj.description}
+                  </p>
+
+                  {/* Features List */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "18px" }}>
+                    {proj.features.map((feat, i) => (
+                      <div key={i} className="feature-hover-row" style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "12px", color: "#e2e8f0" }}>
+                        <CheckCircle2 size={14} color={isWebPage ? "#f59e0b" : "#00d2ff"} style={{ flexShrink: 0, marginTop: "2px", transition: "transform 0.2s ease" }} />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Specs bar */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr 1fr",
+                      gap: "6px",
+                      background: "rgba(5, 11, 20, 0.8)",
+                      border: "1px solid rgba(255, 255, 255, 0.06)",
+                      borderRadius: "10px",
+                      padding: "8px",
+                      marginBottom: "18px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {proj.specs.map((sp, idx) => (
+                      <div key={idx}>
+                        <span style={{ fontSize: "9px", color: "#64748b", display: "block" }}>{sp.label}</span>
+                        <span style={{ fontSize: "11px", fontWeight: 700, color: "#cbd5e1" }}>{sp.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "14px" }}>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    {/* Web page: "Ver Sitio Web" button (instead of DESCARGA APK) */}
+                    {isWebPage && proj.liveUrl ? (
+                      <a
+                        href={proj.liveUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          flex: 1.3,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "6px",
+                          background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                          color: "#000000",
+                          fontWeight: 800,
+                          fontSize: "12.5px",
+                          padding: "10px 14px",
+                          borderRadius: "10px",
+                          textDecoration: "none",
+                          boxShadow: "0 4px 15px rgba(245, 158, 11, 0.35)",
+                          transition: "all 0.25s ease",
+                        }}
+                      >
+                        <Globe size={14} />
+                        <span>Ver Sitio Web</span>
+                      </a>
+                    ) : proj.downloadUrl ? (
+                      <button
+                        onClick={() => handleDownload(proj)}
+                        style={{
+                          flex: 1.3,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "6px",
+                          background: "linear-gradient(135deg, #00d2ff 0%, #0070f3 100%)",
+                          color: "#ffffff",
+                          fontWeight: 700,
+                          fontSize: "12.5px",
+                          padding: "10px 14px",
+                          borderRadius: "10px",
+                          border: "none",
+                          cursor: "pointer",
+                          boxShadow: "0 4px 15px rgba(0, 210, 255, 0.3)",
+                          transition: "all 0.25s ease",
+                        }}
+                      >
+                        <Download size={14} />
+                        <span>DESCARGA APK</span>
+                      </button>
+                    ) : null}
+
+                    {/* Politicas Button */}
+                    <button
+                      onClick={() => handleOpenPolicies(proj)}
+                      title="Ver Politicas y Terminos Oficiales"
+                      style={{
+                        flex: 1,
                         display: "inline-flex",
                         alignItems: "center",
                         justifyContent: "center",
                         gap: "6px",
-                        background: "linear-gradient(135deg, #00d2ff 0%, #0070f3 100%)",
-                        color: "#ffffff",
-                        fontWeight: 700,
-                        fontSize: "12.5px",
-                        padding: "10px 14px",
+                        background: isWebPage ? "rgba(245, 158, 11, 0.09)" : "rgba(0, 210, 255, 0.09)",
+                        border: isWebPage ? "1px solid rgba(245, 158, 11, 0.3)" : "1px solid rgba(0, 210, 255, 0.3)",
+                        color: isWebPage ? "#f59e0b" : "#38bdf8",
+                        fontWeight: 600,
+                        fontSize: "12px",
+                        padding: "10px 12px",
                         borderRadius: "10px",
-                        border: "none",
                         cursor: "pointer",
-                        boxShadow: "0 4px 15px rgba(0, 210, 255, 0.3)",
                         transition: "all 0.25s ease",
                       }}
                     >
-                      <Download size={14} />
-                      {/* Strictly DESCARGA APK without version number */}
-                      <span>DESCARGA APK</span>
+                      <ShieldCheck size={14} />
+                      <span>Politicas</span>
                     </button>
-                  )}
+                  </div>
 
-                  {/* Políticas Button */}
+                  {/* Solicitar Demo */}
                   <button
-                    onClick={() => handleOpenPolicies(proj)}
-                    title="Ver Políticas y Términos Oficiales"
+                    onClick={() => onOpenContact(proj.title)}
                     style={{
-                      flex: 1,
+                      width: "100%",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
                       gap: "6px",
-                      background: "rgba(0, 210, 255, 0.09)",
-                      border: "1px solid rgba(0, 210, 255, 0.3)",
-                      color: "#38bdf8",
+                      background: "rgba(255, 255, 255, 0.04)",
+                      border: "1px solid rgba(255, 255, 255, 0.12)",
+                      color: "#e2e8f0",
                       fontWeight: 600,
                       fontSize: "12px",
-                      padding: "10px 12px",
-                      borderRadius: "10px",
+                      padding: "8px 14px",
+                      borderRadius: "8px",
                       cursor: "pointer",
-                      transition: "all 0.25s ease",
+                      transition: "all 0.2s ease",
                     }}
                   >
-                    <ShieldCheck size={14} />
-                    <span>Políticas</span>
+                    <span>Solicitar Demo o Proyecto Similar</span>
+                    <ExternalLink size={13} color="#38bdf8" />
                   </button>
                 </div>
-
-                {/* Solicitar Demo */}
-                <button
-                  onClick={() => onOpenContact(proj.title)}
-                  style={{
-                    width: "100%",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                    background: "rgba(255, 255, 255, 0.04)",
-                    border: "1px solid rgba(255, 255, 255, 0.12)",
-                    color: "#e2e8f0",
-                    fontWeight: 600,
-                    fontSize: "12px",
-                    padding: "8px 14px",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <span>Solicitar Demo o Integración</span>
-                  <ExternalLink size={13} color="#38bdf8" />
-                </button>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
