@@ -121,7 +121,7 @@ const PROJECTS: ProjectItem[] = [
   {
     id: "autoos",
     title: "AutoOS",
-    version: "v1.0.50 Enterprise",
+    version: "v1.0.51 Enterprise",
     category: "mobile",
     categoryLabel: "Gestion de Flotas & Alquiler",
     badgeColor: "#10b981",
