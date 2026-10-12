@@ -81,7 +81,7 @@ const MOBILE_PROJECTS: MobileProject[] = [
   {
     id: "autoos",
     title: "AutoOS",
-    version: "v1.0.48 Enterprise",
+    version: "v1.0.49 Enterprise",
     categoryLabel: "App Movil & Web",
     badgeColor: "#10b981",
     icon: <Car size={22} color="#10b981" />,
