@@ -121,7 +121,7 @@ const PROJECTS: ProjectItem[] = [
   {
     id: "autoos",
     title: "AutoOS",
-    version: "Pro Enterprise",
+    version: "v1.0.47 Enterprise",
     category: "mobile",
     categoryLabel: "Gestion de Flotas & Alquiler",
     badgeColor: "#10b981",
@@ -137,7 +137,7 @@ const PROJECTS: ProjectItem[] = [
       { label: "Base de Datos", value: "PostgreSQL Cloud" },
       { label: "Tema", value: "OLED Dark Mode" },
     ],
-    downloadUrl: "https://github.com/HDIASOFTWARE/hdiasd-landing/releases/download/v1.0.0/AutoOS.apk",
+    downloadUrl: "https://hdiasd-landing.vercel.app/AutoOS.apk",
     downloadLabel: "DESCARGA APK",
     demoUrl: "#demo-autoos",
   },
