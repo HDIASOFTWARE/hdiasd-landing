@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
@@ -10,27 +10,52 @@ import { Footer } from "./components/Footer";
 import { FloatingWhatsApp } from "./components/FloatingWhatsApp";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { ContactModal } from "./components/ContactModal";
+import { MobileTabLayout } from "./components/MobileTabLayout";
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return isMobile;
+}
 
 export function App() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
+  const isMobile = useIsMobile();
 
   const handleOpenContact = (serviceTitle?: string) => {
     if (serviceTitle) setSelectedService(serviceTitle);
     setContactModalOpen(true);
   };
 
+  if (isMobile) {
+    return (
+      <>
+        <MobileTabLayout onOpenContact={(srv) => handleOpenContact(srv)} />
+        <ContactModal
+          visible={contactModalOpen}
+          initialService={selectedService}
+          onClose={() => setContactModalOpen(false)}
+        />
+      </>
+    );
+  }
+
   return (
     <div className="app-root" style={{ minHeight: "100vh", position: "relative", background: "#020812" }}>
-      {/* 🧭 NAVBAR (always on top) */}
+      {/* NAVBAR (always on top) */}
       <Navbar onOpenContact={() => handleOpenContact()} />
 
-      {/* 🔮 HERO + STICKY DEVICES LAYER */}
+      {/* HERO + STICKY DEVICES LAYER */}
       <div style={{ position: "relative", zIndex: 1 }}>
         <Hero onOpenContact={() => handleOpenContact()} />
       </div>
 
-      {/* 🚀 CONTENT SECTIONS */}
+      {/* CONTENT SECTIONS */}
       <main
         style={{
           position: "relative",
