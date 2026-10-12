@@ -81,7 +81,7 @@ const MOBILE_PROJECTS: MobileProject[] = [
   {
     id: "autoos",
     title: "AutoOS",
-    version: "v1.0.47 Enterprise",
+    version: "v1.0.48 Enterprise",
     categoryLabel: "App Movil & Web",
     badgeColor: "#10b981",
     icon: <Car size={22} color="#10b981" />,
@@ -879,7 +879,7 @@ const ContactoTab: React.FC<{ onOpenContact: () => void }> = ({ onOpenContact })
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       {[
         { icon: <Phone size={17} color="#38bdf8" />, label: "Telefono", value: "+1 (849) 658-4957", href: "tel:+18496584957" },
-        { icon: <Mail size={17} color="#38bdf8" />, label: "Email", value: "hdia.software@gmail.com", href: "mailto:hdia.software@gmail.com" },
+        { icon: <Mail size={17} color="#38bdf8" />, label: "Email", value: "hdiaserviciosdigitales@gmail.com", href: "mailto:hdiaserviciosdigitales@gmail.com" },
         { icon: <MapPin size={17} color="#38bdf8" />, label: "Ubicacion", value: "Republica Dominicana", href: null },
       ].map((c) => (
         <div

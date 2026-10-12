@@ -122,12 +122,12 @@ export const Footer: React.FC = () => {
               </a>
 
               <a
-                href="mailto:hdiasolucionesdigitales@gmail.com"
+                href="mailto:hdiaserviciosdigitales@gmail.com"
                 style={{ color: "#cbd5e1", textDecoration: "none", display: "flex", alignItems: "center", gap: "7px" }}
                 className="footer-link"
               >
                 <Mail size={13} color="#d4af37" />
-                <span>hdiasolucionesdigitales@gmail.com</span>
+                <span>hdiaserviciosdigitales@gmail.com</span>
               </a>
 
               <span style={{ display: "flex", alignItems: "center", gap: "7px", color: "#64748b" }}>

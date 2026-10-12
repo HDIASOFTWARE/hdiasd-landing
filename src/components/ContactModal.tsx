@@ -9,7 +9,7 @@ interface ContactModalProps {
 
 const OFFICIAL_PHONE = "+1.849.658.4957";
 const OFFICIAL_WHATSAPP_LINK = "https://wa.me/18496584957";
-const OFFICIAL_EMAIL = "hdiasolucionesdigitales@gmail.com";
+const OFFICIAL_EMAIL = "hdiaserviciosdigitales@gmail.com";
 
 export const ContactModal: React.FC<ContactModalProps> = ({
   visible,

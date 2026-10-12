@@ -336,7 +336,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
                   Canales de Asistencia Directa
                 </h4>
                 <p style={{ margin: 0 }}>
-                  Soporte técnico, personalización de módulos e integración con APIs externas disponibles de forma prioritaria a través de nuestro WhatsApp oficial (+1.849.658.4957) o correo (hdiasolucionesdigitales@gmail.com).
+                  Soporte técnico, personalización de módulos e integración con APIs externas disponibles de forma prioritaria a través de nuestro WhatsApp oficial (+1.849.658.4957) o correo (hdiaserviciosdigitales@gmail.com).
                 </p>
               </div>
             </>
