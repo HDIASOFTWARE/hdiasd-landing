@@ -54,7 +54,7 @@ const PROJECTS: ProjectItem[] = [
   {
     id: "climup",
     title: "CLIMUP",
-    version: "Release Oficial",
+    version: "v1.0.15 Oficial",
     category: "mobile",
     categoryLabel: "App Movil Android & Cloud",
     badgeColor: "#0284c7",

@@ -94,7 +94,7 @@ const MOBILE_PROJECTS: MobileProject[] = [
   {
     id: "climup",
     title: "CLIMUP",
-    version: "Release Oficial",
+    version: "v1.0.15 Oficial",
     categoryLabel: "App Movil Android",
     badgeColor: "#0284c7",
     icon: <Snowflake size={22} color="#0284c7" />,
