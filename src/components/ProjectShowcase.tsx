@@ -54,7 +54,7 @@ const PROJECTS: ProjectItem[] = [
   {
     id: "climup",
     title: "CLIMUP",
-    version: "v1.0.15 Oficial",
+    version: "v1.0.16 Oficial",
     category: "mobile",
     categoryLabel: "App Movil Android & Cloud",
     badgeColor: "#0284c7",
@@ -121,7 +121,7 @@ const PROJECTS: ProjectItem[] = [
   {
     id: "autoos",
     title: "AutoOS",
-    version: "v1.0.51 Enterprise",
+    version: "v1.0.69 Enterprise",
     category: "mobile",
     categoryLabel: "Gestion de Flotas & Alquiler",
     badgeColor: "#10b981",

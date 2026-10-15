@@ -81,7 +81,7 @@ const MOBILE_PROJECTS: MobileProject[] = [
   {
     id: "autoos",
     title: "AutoOS",
-    version: "v1.0.66 Enterprise",
+    version: "v1.0.69 Enterprise",
     categoryLabel: "App Movil & Web",
     badgeColor: "#10b981",
     icon: <Car size={22} color="#10b981" />,
@@ -94,7 +94,7 @@ const MOBILE_PROJECTS: MobileProject[] = [
   {
     id: "climup",
     title: "CLIMUP",
-    version: "v1.0.15 Oficial",
+    version: "v1.0.16 Oficial",
     categoryLabel: "App Movil Android",
     badgeColor: "#0284c7",
     icon: <Snowflake size={22} color="#0284c7" />,
